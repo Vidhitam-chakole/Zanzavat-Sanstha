@@ -33,31 +33,40 @@
   --font-marathi: 'Yatra One', cursive;
 
   /* Color Palette */
-  --color-primary: #C82333;       /* Warm crimson red */
+  --color-primary: #C82333;
+  /* Warm crimson red */
   --color-primary-hover: #A71D2A;
-  --color-secondary: #E05A47;     /* Deep Orange */
+  --color-secondary: #E05A47;
+  /* Deep Orange */
   --color-secondary-hover: #C54433;
-  --color-accent: #F4B41A;        /* Golden Accent */
+  --color-accent: #F4B41A;
+  /* Golden Accent */
   --color-accent-hover: #D89A0E;
-  --color-green: #2E7D32;         /* Hope/Growth Green */
+  --color-green: #2E7D32;
+  /* Hope/Growth Green */
   --color-green-light: #E8F5E9;
-  
+
   /* Neutrals */
   --color-white: #FFFFFF;
-  --color-bg-light: #FAF9F6;      /* Soft warm cream */
-  --color-bg-alt: #F3F1EB;        /* Beige/Neutral gray */
-  --color-charcoal: #1E1E24;      /* Deep dark charcoal */
-  --color-text-dark: #232220;     /* Soft dark grey for text */
-  --color-text-muted: #6E6C68;    /* Muted body text */
+  --color-bg-light: #FAF9F6;
+  /* Soft warm cream */
+  --color-bg-alt: #F3F1EB;
+  /* Beige/Neutral gray */
+  --color-charcoal: #1E1E24;
+  /* Deep dark charcoal */
+  --color-text-dark: #232220;
+  /* Soft dark grey for text */
+  --color-text-muted: #6E6C68;
+  /* Muted body text */
   --color-text-light: #FAF9F6;
-  
+
   /* Borders and Shadows */
   --border-color: rgba(35, 34, 32, 0.1);
   --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.03);
   --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
   --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.06);
-  
+
   /* Border Radius */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -71,8 +80,16 @@
   --transition-slow: 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.logo-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
 /* 2. Reset & Global Styles */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -120,17 +137,33 @@ section {
 }
 
 /* 3. Typography & Marathi Anchors */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif);
   font-weight: 700;
   line-height: 1.25;
   margin-bottom: 20px;
 }
 
-h1 { font-size: 3rem; }
-h2 { font-size: 2.25rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.25rem; }
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
 
 p {
   margin-bottom: 20px;
@@ -797,7 +830,8 @@ header.site-header.scrolled {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(200, 35, 51, 0.85); /* brand crimson overlay */
+  background-color: rgba(200, 35, 51, 0.85);
+  /* brand crimson overlay */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1246,7 +1280,8 @@ header.site-header.scrolled {
 
 /* Dynamic Event Detail View Styles */
 .event-detail-container {
-  display: none; /* Controlled by JS switcher */
+  display: none;
+  /* Controlled by JS switcher */
 }
 
 .event-detail-back {
@@ -1406,7 +1441,8 @@ header.site-header.scrolled {
   transition: var(--transition-fast);
 }
 
-.filter-btn.active, .filter-btn:hover {
+.filter-btn.active,
+.filter-btn:hover {
   background-color: var(--color-primary);
   color: var(--color-white);
   border-color: var(--color-primary);
@@ -1591,7 +1627,7 @@ header.site-header.scrolled {
   opacity: 0.5;
   transform: scale(0.9);
   flex-shrink: 0;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .spotlight-slide img {
@@ -1977,9 +2013,14 @@ footer.site-footer {
 
 /* Responsive Media Queries */
 @media (max-width: 1024px) {
-  h1 { font-size: 2.5rem; }
-  h2 { font-size: 2rem; }
-  
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
   .who-we-are-split,
   .about-history,
   .story-grid,
@@ -1990,28 +2031,29 @@ footer.site-footer {
     flex-direction: column;
     gap: 40px;
   }
-  
+
   .who-main-img {
     width: 100%;
   }
-  
+
   .who-offset-badge {
     bottom: -10px;
     right: 10px;
   }
-  
+
   .story-card {
     flex-direction: column;
   }
-  
-  .story-img, .story-content {
+
+  .story-img,
+  .story-content {
     width: 100%;
   }
-  
+
   .story-img {
     aspect-ratio: 16 / 10;
   }
-  
+
   .donate-details-box {
     position: static;
     width: 100%;
@@ -2020,7 +2062,7 @@ footer.site-footer {
   .gallery-masonry-grid {
     column-count: 2;
   }
-  
+
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -2030,7 +2072,7 @@ footer.site-footer {
   .hamburger {
     display: block;
   }
-  
+
   .nav-menu {
     position: fixed;
     top: 0;
@@ -2045,55 +2087,56 @@ footer.site-footer {
     transition: var(--transition-normal);
     z-index: 1000;
   }
-  
+
   .nav-menu.is-active {
     right: 0;
   }
-  
+
   .nav-cta {
-    display: none; /* Injected dynamically or simply hidden on mobile */
+    display: none;
+    /* Injected dynamically or simply hidden on mobile */
   }
-  
+
   .counter-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .counter-item::after {
     display: none !important;
   }
-  
+
   .timeline-container::before {
     left: 20px;
   }
-  
+
   .timeline-item {
     width: 100%;
     padding-left: 50px;
     padding-right: 0;
   }
-  
+
   .timeline-item:nth-child(odd),
   .timeline-item:nth-child(even) {
     left: 0;
     text-align: left;
   }
-  
+
   .timeline-dot {
     left: 10px !important;
     right: auto !important;
   }
-  
+
   .cta-banner {
     flex-direction: column;
     text-align: center;
     padding: 40px 24px;
     gap: 24px;
   }
-  
+
   .cta-banner-content {
     max-width: 100%;
   }
-  
+
   .cta-banner-title {
     font-size: 1.75rem;
   }
@@ -2101,27 +2144,27 @@ footer.site-footer {
   .gallery-filters {
     gap: 8px;
   }
-  
+
   .gallery-masonry-grid {
     column-count: 1;
   }
-  
+
   .event-detail-layout {
     flex-direction: column;
   }
-  
+
   .event-detail-gallery-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .hero-slider-container {
     height: 70vh;
   }
-  
+
   .hero-title {
     font-size: 2.25rem;
   }
-  
+
   .insta-preview-container {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -2131,18 +2174,23 @@ footer.site-footer {
   .insta-preview-container {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .form-group-row {
     grid-template-columns: 1fr;
   }
+
   .counter-grid {
     grid-template-columns: 1fr;
   }
+
   .event-detail-gallery-grid {
     grid-template-columns: 1fr;
   }
+
   .footer-grid {
     grid-template-columns: 1fr;
   }
+
   .footer-bottom {
     flex-direction: column;
     gap: 15px;

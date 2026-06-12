@@ -1,0 +1,89 @@
+[
+  {
+    "id": "back-to-school-2026",
+    "title": "Back to School Kit Distribution",
+    "date": "June 5, 2026",
+    "isoDate": "2026-06-05",
+    "coverImage": "public/assets/images/education-support/school-kit-cover.webp",
+    "description": "Distributing school bags, notebooks, drawing kits, and stationery to children in underserved communities to spark their passion for learning.",
+    "longDescription": "Our annual 'Back to School' drive aims to remove financial barriers that prevent children from attending school with confidence. This year, Zanzavat Bahuudeshiya Shaikshanik Sanstha supported over 75 children. Volunteers gathered to organize, pack, and distribute customized educational kits tailored to different grade levels. The joy on the children's faces when they received their brand-new school bags was a powerful reminder of why we do this work. Education is the foundation of a bright future, and we are committed to making it accessible to every child.",
+    "location": "Zilla Parishad Primary School, Nagpur Region",
+    "statistics": [
+      {
+        "value": "75+",
+        "label": "Children Supported"
+      },
+      {
+        "value": "150+",
+        "label": "Notebooks Provided"
+      },
+      {
+        "value": "12",
+        "label": "Volunteers Engaged"
+      }
+    ],
+    "galleryImages": [
+      "public/assets/images/education-support/kit-1.webp",
+      "public/assets/images/education-support/kit-2.webp",
+      "public/assets/images/education-support/kit-3.webp"
+    ]
+  },
+  {
+    "id": "rural-medical-camp-2026",
+    "title": "Rural Free Medical Camp & Checkup",
+    "date": "April 18, 2026",
+    "isoDate": "2026-04-18",
+    "coverImage": "public/assets/images/medical-camps/medical-camp-cover.webp",
+    "description": "Providing vital health screenings, professional doctor consultations, and free essential medicines to rural families without access to healthcare.",
+    "longDescription": "Access to quality healthcare remains a challenge for many rural communities. Zanzavat Bahuudeshiya Shaikshanik Sanstha, in partnership with local volunteer doctors, organized a comprehensive medical checkup camp. Over the course of a single day, we screened community members for basic health indicators, provided advice on chronic conditions, and distributed free primary medicines and vitamin supplements. Special focus was given to child healthcare, malnutrition screenings, and maternal wellness, ensuring that the entire community received critical medical attention.",
+    "location": "Bhakre Community Center",
+    "statistics": [
+      {
+        "value": "120+",
+        "label": "Patients Screened"
+      },
+      {
+        "value": "8",
+        "label": "Medical Specialists"
+      },
+      {
+        "value": "350+",
+        "label": "Medicine Kits Distributed"
+      }
+    ],
+    "galleryImages": [
+      "public/assets/images/medical-camps/camp-1.webp",
+      "public/assets/images/medical-camps/camp-2.webp",
+      "public/assets/images/medical-camps/camp-3.webp"
+    ]
+  },
+  {
+    "id": "community-food-drive-2026",
+    "title": "Nourishing Communities: Food & Grocery Drive",
+    "date": "March 10, 2026",
+    "isoDate": "2026-03-10",
+    "coverImage": "public/assets/images/food-distribution/food-drive-cover.webp",
+    "description": "Distributing warm, nutritious meals and essential monthly ration kits to daily wage workers and homeless families.",
+    "longDescription": "Hunger is a daily battle for many low-income and daily-wage families. Under our community assistance focus, we mobilized our volunteers for a large-scale food distribution drive. We prepared and distributed freshly cooked hot meals and also provided dry grocery kits containing rice, wheat flour, lentils, cooking oil, and salt to sustain families for a month. This service was designed to provide temporary relief to those in critical need while supporting their journey toward stability and nourishment.",
+    "location": "Urban Slum Borders & Shelter Homes",
+    "statistics": [
+      {
+        "value": "200+",
+        "label": "Hot Meals Served"
+      },
+      {
+        "value": "45+",
+        "label": "Ration Kits Distributed"
+      },
+      {
+        "value": "15",
+        "label": "Active Volunteers"
+      }
+    ],
+    "galleryImages": [
+      "public/assets/images/food-distribution/food-1.webp",
+      "public/assets/images/food-distribution/food-2.webp",
+      "public/assets/images/food-distribution/food-3.webp"
+    ]
+  }
+]

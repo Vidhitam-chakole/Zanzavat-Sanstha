@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events & Campaigns | Zanzavat Bahuudeshiya Shaikshanik Sanstha</title>
+  <meta name="description" content="Read about the campaigns and events conducted by Zanzavat Bahuudeshiya Shaikshanik Sanstha. See our latest drives, statistics, and photo reports.">
+  
+  <!-- CSS Link -->
+  <link rel="stylesheet" href="public/assets/css/style.css">
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="site-logo">
+        <div class="logo-img" style="background-color: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--font-marathi); font-size: 1.5rem;">झं</div>
+        <div>
+          <span class="logo-text">Zanzavat Sanstha</span>
+          <span class="logo-subtitle">Empowering Since 1995</span>
+        </div>
+      </a>
+      
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="impact.html" class="nav-link">Our Impact</a>
+        <a href="programs.html" class="nav-link">Programs</a>
+        <a href="events.html" class="nav-link active">Events</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="join.html" class="nav-link">Join Us</a>
+        <a href="donate.html" class="nav-link">Donate</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-cta">
+        <button class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dynamic Section Wrapper -->
+  <section class="events-section-wrapper" style="padding-top: 120px;">
+    <div class="container">
+      
+      <!-- 1. EVENTS LIST VIEW -->
+      <div id="events-list-section">
+        <div class="section-header">
+          <span class="section-tag">Our History of Action</span>
+          <h2>Campaigns & Ground Events</h2>
+          <p>We believe in action (सेवा) that creates tangible results. View our recent distribution drives, free camps, and community engagement updates.</p>
+        </div>
+        
+        <!-- Grid dynamically populated by events.js -->
+        <div class="card-grid" id="events-grid">
+          <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-text-muted);">
+            <h3>Loading events...</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. INDIVIDUAL EVENT DETAILS VIEW (Initially Hidden) -->
+      <div id="events-detail-section" class="event-detail-container">
+        <!-- Back Navigation -->
+        <div class="event-detail-back">
+          <span>&larr;</span> Back to All Events
+        </div>
+        
+        <!-- Hero Details (BG, date, title loaded by JS) -->
+        <div class="event-detail-hero">
+          <div class="event-detail-hero-content">
+            <!-- Dynamic title and details -->
+          </div>
+        </div>
+        
+        <!-- Layout Split -->
+        <div class="event-detail-layout">
+          <!-- Main description -->
+          <div class="event-detail-main">
+            <!-- Loaded dynamically by events.js -->
+          </div>
+          
+          <!-- Sidebar details and statistics -->
+          <div class="event-detail-sidebar">
+            <div class="event-detail-sidebar-box event-sidebar-info-box">
+              <!-- Loaded dynamically by events.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Gallery -->
+        <div class="event-detail-gallery">
+          <h3 class="section-tag" style="margin-bottom: 25px;">Event Photos</h3>
+          <div class="event-detail-gallery-grid">
+            <!-- Loaded dynamically by events.js -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Lightbox Modal (Used when clicking event gallery images) -->
+  <div class="lightbox-modal">
+    <button class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="Previous Image">&lsaquo;</button>
+    <div class="lightbox-content-wrapper">
+      <img src="" alt="Popup view" class="lightbox-image">
+      <div class="lightbox-caption"></div>
+    </div>
+    <button class="lightbox-nav lightbox-next" aria-label="Next Image">&rsaquo;</button>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Zanzavat Bahuudeshiya Shaikshanik Sanstha</h3>
+          <p>Established in 1995. We are a registered multi-purpose educational society dedicated to child welfare, health services, and rural development. Bringing positive change (परिवर्तन) since three decades.</p>
+          <div class="footer-social-links">
+            <a href="https://www.instagram.com/zanzavat_sanstha" target="_blank" class="footer-social-btn" aria-label="Instagram">📸</a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="footer-links-title">Quick Links</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="impact.html">Our Impact</a></li>
+            <li><a href="programs.html">Programs</a></li>
+            <li><a href="events.html">Events & Campaigns</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-links-title">Get Involved</h4>
+          <ul class="footer-links-list">
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="join.html">Become a Volunteer</a></li>
+            <li><a href="donate.html">Donate Funds</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-links-title">Get In Touch</h4>
+          <ul class="footer-links-list">
+            <li class="footer-contact-item">
+              <span class="icon">📍</span>
+              <span>Nagpur, Maharashtra, India</span>
+            </li>
+            <li class="footer-contact-item">
+              <span class="icon">📞</span>
+              <span><a href="tel:+919322552882">+91 93225 52882</a></span>
+            </li>
+            <li class="footer-contact-item">
+              <span class="icon">📧</span>
+              <span><a href="mailto:zanzavatsanstha@gmail.com">zanzavatsanstha@gmail.com</a></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div>&copy; 2026 Zanzavat Bahuudeshiya Shaikshanik Sanstha. All rights reserved.</div>
+        <div style="font-size: 0.8rem;">Registered NGO | Estd. 1995</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="public/assets/js/main.js"></script>
+  <script src="public/assets/js/gallery.js"></script> <!-- Required for Lightbox logic -->
+  <script src="public/assets/js/events.js"></script>    <!-- Handles Routing and Fetching -->
+</body>
+</html>

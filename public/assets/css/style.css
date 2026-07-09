@@ -85,6 +85,63 @@
   height: 70px;
   object-fit: contain;
 }
+.team-grid{
+    margin-top:50px;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:25px;
+}
+
+.team-card.small{
+
+    width:190px;
+    background:#fff;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    transition:.3s;
+}
+
+.team-card.small:hover{
+    transform:translateY(-8px);
+}
+
+.team-card.small img{
+
+    width:100%;
+    height:180px;
+
+    object-fit:cover;
+}
+
+.team-card.small h3{
+
+    margin:15px 0 5px;
+
+    font-size:18px;
+}
+
+.team-card.small span{
+
+    display:block;
+
+    margin-bottom:18px;
+
+    color:#d62b2b;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+}
 
 /* 2. Reset & Global Styles */
 *,

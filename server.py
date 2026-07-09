@@ -4,8 +4,21 @@ import csv
 import sqlite3
 from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory
+from flask_mail import Mail, Message
+from dotenv import load_dotenv
 
 app = Flask(__name__, static_folder='.', static_url_path='')
+
+load_dotenv()
+    
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+
+mail = Mail(app)
+
 
 # Files to store records locally
 DB_FILE = 'database.db'
@@ -89,6 +102,69 @@ def save_to_csv(file_path, headers, row_data):
             writer.writerow(headers)
         writer.writerow(row_data)
 
+
+def send_contact_email(name, email, phone, subject, message):
+
+    print("===== EMAIL FUNCTION STARTED =====")
+    msg = Message(
+        subject=f"New Contact Form - {subject}",
+        sender=app.config["MAIL_USERNAME"],
+        recipients=["zanzavatsanstha@gmail.com"]
+    )
+
+    msg.body = f"""
+New Contact Form Submission
+
+Name:
+{name}
+
+Email:
+{email}
+
+Phone:
+{phone}
+
+Subject:
+{subject}
+
+Message:
+{message}
+"""
+
+    mail.send(msg)
+    print("Username:", app.config["MAIL_USERNAME"])
+    print("Password:", repr(app.config["MAIL_PASSWORD"]))
+    print("===== EMAIL SENT =====")
+    
+def send_registration_email(name, email, phone, interest, message):
+
+    msg = Message(
+        subject=f"New Volunteer Registration - {name}",
+        sender=app.config["MAIL_USERNAME"],
+        recipients=["chakolevidhitam@gmail.com"]
+    )
+
+    msg.body = f"""
+New Volunteer Registration
+
+Full Name:
+{name}
+
+Email:
+{email}
+
+Phone:
+{phone}
+
+Area of Interest:
+{interest}
+
+Motivation:
+{message}
+"""
+
+    mail.send(msg)
+
 @app.route('/')
 def serve_index():
     """Serves the home page."""
@@ -136,6 +212,14 @@ def register_volunteer():
         csv_headers = ['Timestamp', 'Full Name', 'Email Address', 'Phone Number', 'Area of Interest', 'Motivation Message']
         csv_row = [timestamp, name, email, phone, interest, message]
         save_to_csv(REGISTRATIONS_CSV, csv_headers, csv_row)
+
+        send_registration_email(
+    name,
+    email,
+    phone,
+    interest,
+    message
+)
         
         return jsonify({"status": "success", "message": "Volunteer registered successfully!"})
     except Exception as e:
@@ -183,10 +267,25 @@ def contact_message():
         csv_headers = ['Timestamp', 'Sender Name', 'Email Address', 'Phone Number', 'Subject', 'Message Body']
         csv_row = [timestamp, name, email, phone, subject, message]
         save_to_csv(CONTACTS_CSV, csv_headers, csv_row)
+
+        send_contact_email(
+    name,
+    email,
+    phone,
+    subject,
+    message
+)
         
         return jsonify({"status": "success", "message": "Message saved successfully!"})
     except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
+     import traceback
+     traceback.print_exc()
+
+     return jsonify({
+            "status": "error",
+            "message": str(e)
+    }), 500
+    
 
 @app.route('/<path:filename>')
 def serve_static(filename):

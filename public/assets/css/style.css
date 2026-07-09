@@ -25,6 +25,39 @@
 
 /* 1. Google Fonts Import & Variables */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Yatra+One&display=swap');
+/* mobile CSS */
+@media(max-width:768px){
+
+.hero{
+    flex-direction:column;
+    text-align:center;
+}
+
+.hero-content{
+    width:100%;
+}
+
+.hero-image{
+    width:100%;
+}
+
+.cards{
+    grid-template-columns:1fr;
+}
+
+.section{
+    padding:60px 20px;
+}
+
+h1{
+    font-size:2rem;
+}
+
+h2{
+    font-size:1.6rem;
+}
+
+}
 
 :root {
   /* Font Families */
@@ -2092,6 +2125,7 @@ footer.site-footer {
   .who-main-img {
     width: 100%;
   }
+
 
   .who-offset-badge {
     bottom: -10px;

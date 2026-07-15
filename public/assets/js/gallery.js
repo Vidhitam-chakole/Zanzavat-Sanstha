@@ -149,6 +149,30 @@ class GalleryController {
         }
       });
     });
+
+    // Swipe Gestures for Lightbox Modal on Mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    modal.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    modal.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    const handleSwipe = () => {
+      const swipeThreshold = 50;
+      if (touchStartX - touchEndX > swipeThreshold) {
+        // Swipe left -> next image
+        showImage(this.currentLightboxIndex + 1);
+      } else if (touchEndX - touchStartX > swipeThreshold) {
+        // Swipe right -> prev image
+        showImage(this.currentLightboxIndex - 1);
+      }
+    };
   }
 
   /**
@@ -193,6 +217,17 @@ class GalleryController {
     wrapper.addEventListener('mouseleave', () => {
       isHovered = false;
     });
+
+    // Touch listeners for mobile to pause on touch
+    wrapper.addEventListener('touchstart', () => {
+      isHovered = true;
+    }, { passive: true });
+
+    wrapper.addEventListener('touchend', () => {
+      setTimeout(() => {
+        isHovered = false;
+      }, 1000);
+    }, { passive: true });
 
     const updateSpotlight = () => {
       const wrapperRect = wrapper.getBoundingClientRect();

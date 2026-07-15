@@ -65,9 +65,9 @@ def init_sqlite_db():
         
         conn.commit()
         conn.close()
-        print("✓ SQLite Database successfully initialized (database.db).")
+        print("[OK] SQLite Database successfully initialized (database.db).")
     except Exception as e:
-        print(f"❌ Database initialization error: {e}")
+        print(f"[ERROR] Database initialization error: {e}")
 
 def save_to_json(file_path, data):
     """Appends data record to the target JSON array."""

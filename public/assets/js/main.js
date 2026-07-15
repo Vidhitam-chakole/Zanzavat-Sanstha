@@ -177,6 +177,38 @@
         });
       });
 
+      // Swipe Gestures for Mobile
+      const sliderContainer = document.querySelector('.hero-slider-container');
+      if (sliderContainer) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        sliderContainer.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        sliderContainer.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        }, { passive: true });
+
+        const handleSwipe = () => {
+          const swipeThreshold = 50;
+          if (touchStartX - touchEndX > swipeThreshold) {
+            // Swiped left -> next slide
+            stopAutoPlay();
+            nextSlide();
+            startAutoPlay();
+          } else if (touchEndX - touchStartX > swipeThreshold) {
+            // Swiped right -> previous slide
+            stopAutoPlay();
+            let prev = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(prev);
+            startAutoPlay();
+          }
+        };
+      }
+
       showSlide(0);
       startAutoPlay();
     }

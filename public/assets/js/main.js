@@ -11,6 +11,7 @@
       this.initStatCounters();
       this.initHeroCarousel();
       this.initFormSubmissions();
+      this.initAIChat();
     }
 
     /**
@@ -296,6 +297,69 @@
           
           feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
+      });
+    }
+
+    initAIChat() {
+      const launcher = document.getElementById('ai-chat-launcher');
+      const panel = document.getElementById('ai-chat-panel');
+      const closeButton = document.getElementById('ai-chat-close');
+      const form = document.getElementById('ai-chat-form');
+      const input = document.getElementById('ai-chat-input');
+      const messages = document.getElementById('ai-chat-messages');
+
+      if (!launcher || !panel || !closeButton || !form || !input || !messages) return;
+
+      const togglePanel = (isOpen) => {
+        panel.classList.toggle('is-open', isOpen);
+        panel.setAttribute('aria-hidden', String(!isOpen));
+        launcher.setAttribute('aria-expanded', String(isOpen));
+        if (isOpen) input.focus();
+      };
+
+      const addMessage = (text, type) => {
+        const message = document.createElement('div');
+        message.className = `ai-chat-message ai-chat-message-${type}`;
+        message.textContent = text;
+        messages.appendChild(message);
+        messages.scrollTop = messages.scrollHeight;
+        return message;
+      };
+
+      launcher.addEventListener('click', () => togglePanel(true));
+      closeButton.addEventListener('click', () => togglePanel(false));
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          form.requestSubmit();
+        }
+      });
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const message = input.value.trim();
+        if (!message) return;
+
+        addMessage(message, 'user');
+        input.value = '';
+        input.disabled = true;
+        const loadingMessage = addMessage('Thinking...', 'assistant');
+
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+          });
+          const result = await response.json();
+          loadingMessage.textContent = response.ok ? result.reply : (result.message || 'The assistant is unavailable right now.');
+        } catch (error) {
+          loadingMessage.textContent = 'The assistant is unavailable right now. Please try again later.';
+        } finally {
+          input.disabled = false;
+          input.focus();
+          messages.scrollTop = messages.scrollHeight;
+        }
       });
     }
   }

@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
 from supabase import create_client
+import requests
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
@@ -322,6 +323,47 @@ def contact_message():
     except Exception as e:
         traceback.print_exc()
         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/chat', methods=['POST'])
+def ai_chat():
+    """Forwards chat requests to Groq's OpenAI-compatible API."""
+    message = (request.json or {}).get('message', '').strip()
+    ai_url = os.getenv('GROQ_API_URL', 'https://api.groq.com/openai/v1/chat/completions')
+    ai_key = os.getenv('GROQ_API_KEY') or os.getenv('NGROK_API_KEY')
+
+    if not message:
+        return jsonify({"status": "error", "message": "Please enter a message."}), 400
+    if not ai_key:
+        return jsonify({"status": "error", "message": "AI assistant is not configured yet."}), 503
+
+    try:
+        headers = {"Content-Type": "application/json"}
+        if ai_key:
+            headers["Authorization"] = f"Bearer {ai_key}"
+
+        response = requests.post(
+            ai_url,
+            headers=headers,
+            json={
+                "model": os.getenv("GROQ_MODEL", "openai/gpt-oss-20b"),
+                "messages": [{"role": "user", "content": message}],
+            },
+            timeout=45,
+        )
+        response.raise_for_status()
+        result = response.json()
+        reply = result.get("choices", [{}])[0].get("message", {}).get("content")
+        reply = reply or result.get("reply") or result.get("response")
+
+        if not reply:
+            return jsonify({"status": "error", "message": "The AI returned an empty response."}), 502
+        return jsonify({"status": "success", "reply": reply})
+    except requests.RequestException as error:
+        print(f"[WARNING] AI request failed: {error}")
+        return jsonify({"status": "error", "message": "The assistant is unavailable right now."}), 502
+    except (KeyError, IndexError, TypeError, ValueError):
+        return jsonify({"status": "error", "message": "The AI returned an invalid response."}), 502
 
 
 @app.route('/<path:filename>')

@@ -26,13 +26,14 @@
           <span class="logo-subtitle">Empowering Since 1995</span>
         </div>
       </a>
-
+      
       <nav class="nav-menu">
         <a href="index.html" class="nav-link active">Home</a>
         <a href="about.html" class="nav-link">About Us</a>
         <a href="impact.html" class="nav-link">Our Impact</a>
         <a href="programs.html" class="nav-link">Programs</a>
         <a href="events.html" class="nav-link">Events</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
         <a href="join.html" class="nav-link">Join Us</a>
         <a href="donate.html" class="nav-link">Donate</a>
         <a href="contact.html" class="nav-link">Contact</a>
@@ -97,7 +98,7 @@
             since 1995.</p>
           <div class="hero-buttons">
             <a href="join.html" class="btn btn-accent">Become a Volunteer</a>
-            <a href="events.html" class="btn btn-outline-light">View Events</a>
+            <a href="gallery.html" class="btn btn-outline-light">View Gallery</a>
           </div>
         </div>
       </div>
@@ -110,6 +111,30 @@
       <button class="hero-indicator" aria-label="Slide 3"></button>
     </div>
   </section>
+
+  <button class="ai-chat-launcher" id="ai-chat-launcher" type="button" aria-label="Open AI assistant"
+    aria-controls="ai-chat-panel" aria-expanded="false">
+    <span class="ai-chat-launcher-icon" aria-hidden="true">✦</span>
+    <span>Ask Zanzavat AI</span>
+  </button>
+
+  <aside class="ai-chat-panel" id="ai-chat-panel" aria-label="Zanzavat AI assistant" aria-hidden="true">
+    <div class="ai-chat-header">
+      <div>
+        <span class="ai-chat-eyebrow">Zanzavat Assistant</span>
+        <h2>How can we help?</h2>
+      </div>
+      <button class="ai-chat-close" id="ai-chat-close" type="button" aria-label="Close AI assistant">&times;</button>
+    </div>
+    <div class="ai-chat-messages" id="ai-chat-messages" aria-live="polite">
+      <div class="ai-chat-message ai-chat-message-assistant">Hello! Ask me about our programs, volunteering, donations, or upcoming events.</div>
+    </div>
+    <form class="ai-chat-form" id="ai-chat-form">
+      <label class="sr-only" for="ai-chat-input">Message</label>
+      <textarea id="ai-chat-input" rows="1" placeholder="Ask a question..." required></textarea>
+      <button class="ai-chat-send" type="submit" aria-label="Send message">Send</button>
+    </form>
+  </aside>
 
   <!-- Impact Section (Counters) -->
   <section class="counter-section">
@@ -312,6 +337,7 @@
         <div>
           <h4 class="footer-links-title">Get Involved</h4>
           <ul class="footer-links-list">
+            <li><a href="gallery.html">Gallery</a></li>
             <li><a href="join.html">Become a Volunteer</a></li>
             <li><a href="donate.html">Donate Funds</a></li>
             <li><a href="contact.html">Contact Us</a></li>

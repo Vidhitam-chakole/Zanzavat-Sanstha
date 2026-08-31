@@ -1,0 +1,96 @@
+[
+  {
+    "id": "school-kit-drive-2026",
+    "title": "Annual School Kit Distribution Drive",
+    "date": "June 15, 2026",
+    "isoDate": "2026-06-15",
+    "location": "Bhakre Basti, Nagpur District",
+    "description": "Distributed comprehensive school kits containing bags, notebooks, stationery, and drawing materials to 75+ underprivileged children before the new academic year.",
+    "longDescription": "Zanzavat Bahuudeshiya Shaikshanik Sanstha organized its flagship annual school kit distribution drive in June 2026. Volunteers traveled to rural blocks across the Nagpur district to deliver complete educational kits to children who otherwise could not afford basic school supplies. Each kit contained a durable school bag, primary notebooks, compass boxes, pencil sets, and drawing kits. The event served over 75 children across 3 rural schools, ensuring they started the academic year with confidence and the resources they need to succeed.",
+    "coverImage": "public/assets/images/education-support/edu-card.webp",
+    "galleryImages": [
+      "public/assets/images/education-support/edu-focus.webp",
+      "public/assets/images/hero/hero-1.webp"
+    ],
+    "statistics": [
+      { "label": "Children Served", "value": "75+" },
+      { "label": "Schools Reached", "value": "3" },
+      { "label": "Kits Distributed", "value": "75" }
+    ]
+  },
+  {
+    "id": "medical-camp-dec-2025",
+    "title": "Winter Medical Checkup Camp",
+    "date": "December 20, 2025",
+    "isoDate": "2025-12-20",
+    "location": "Village Community Hall, Nagpur Rural",
+    "description": "Conducted a free medical checkup camp screening 120+ patients with volunteer doctors, providing prescriptions and free essential medicine kits.",
+    "longDescription": "In December 2025, Zanzavat organized a comprehensive winter medical checkup camp in coordination with 8 volunteer general practitioners and pediatricians. The camp focused on children's wellness, basic eye testing, blood pressure monitoring, diabetes screening, and distribution of vitamins and primary medicines. Over 120 patients were screened during the day-long camp, with critical cases identified and referred for free medical treatment. Pediatric supplements and vitamin drops were distributed to children, while senior citizens received free eye checkups and reading glasses.",
+    "coverImage": "public/assets/images/medical-camps/med-card.webp",
+    "galleryImages": [
+      "public/assets/images/medical-camps/med-focus.webp",
+      "public/assets/images/hero/hero-2.webp"
+    ],
+    "statistics": [
+      { "label": "Patients Screened", "value": "120+" },
+      { "label": "Doctors Volunteered", "value": "8" },
+      { "label": "Medicine Kits Given", "value": "90" }
+    ]
+  },
+  {
+    "id": "ration-distribution-oct-2025",
+    "title": "Festival Season Ration Distribution",
+    "date": "October 25, 2025",
+    "isoDate": "2025-10-25",
+    "location": "Multiple Villages, Nagpur District",
+    "description": "Distributed dry monthly ration kits containing flour, oil, rice, and lentils to 45 daily wager families during the festive season.",
+    "longDescription": "During the festive season of October 2025, Zanzavat launched a large-scale ration distribution program targeting daily wager households and roadside dwellers across multiple villages in the Nagpur district. A total of 45 dry grocery kits were distributed, each containing flour, cooking oil, rice, lentils, and basic spices — enough to sustain a family for a full month. In addition, hot freshly cooked meals were served to over 200 roadside dwellers. The initiative aimed to ensure that no family went hungry during the celebration period and provided nutritional support during a critical time of year.",
+    "coverImage": "public/assets/images/food-distribution/food-card.webp",
+    "galleryImages": [
+      "public/assets/images/food-distribution/food-focus.webp",
+      "public/assets/images/hero/hero-3.webp"
+    ],
+    "statistics": [
+      { "label": "Families Supported", "value": "45" },
+      { "label": "Meals Served", "value": "200+" },
+      { "label": "Ration Kits", "value": "45" }
+    ]
+  },
+  {
+    "id": "blanket-drive-dec-2025",
+    "title": "Winter Blanket & Clothing Distribution",
+    "date": "December 28, 2025",
+    "isoDate": "2025-12-28",
+    "location": "Roadside Shelters, Nagpur City",
+    "description": "Distributed 100+ warm blankets and winter wear to roadside families during the cold wave in late December.",
+    "longDescription": "As temperatures dropped during the cold wave of late December 2025, Zanzavat coordinates a rapid winter clothing distribution drive. Volunteers gathered and distributed over 100 warm blankets, 50+ sweaters, and winter wear to roadside families and shelterless individuals across Nagpur city. The drive focused on ensuring children and senior citizens sleeping in uninsulated facilities received adequate warmth. School uniforms and raincoats were also distributed to children to ensure their safety and comfort during the winter and upcoming monsoon season.",
+    "coverImage": "public/assets/images/clothing-drives/clothing-focus.webp",
+    "galleryImages": [
+      "public/assets/images/clothing-drives/clothing-focus.webp"
+    ],
+    "statistics": [
+      { "label": "Blankets Given", "value": "100+" },
+      { "label": "Sweaters Distributed", "value": "50+" },
+      { "label": "Families Helped", "value": "80" }
+    ]
+  },
+  {
+    "id": "checkmate-championship-2026",
+    "title": "Checkmate Championship Chess Tournament",
+    "date": "March 10, 2026",
+    "isoDate": "2026-03-10",
+    "location": "Community Center, Nagpur",
+    "description": "Organized one of Vidarbha's largest annual chess tournaments, bringing together players from across the region to promote strategic thinking and sportsmanship.",
+    "longDescription": "The Checkmate Championship is one of Vidarbha's largest annual chess tournaments organized by Zanzavat Bahuudeshiya Shaikshanik Sanstha. The 2026 edition brought together over 100 players from across the region, ranging from school students to adult enthusiasts. The tournament promoted strategic thinking, sportsmanship, and excellence in the game of chess among youth. Prizes and certificates were distributed to winners and participants, with special recognition for young talent from rural communities. The event also served as a community engagement platform, strengthening bonds between urban and rural participants.",
+    "coverImage": "public/assets/images/student-welfare/welfare-focus.webp",
+    "galleryImages": [
+      "public/assets/images/student-welfare/welfare-focus.webp",
+      "public/assets/images/hero/hero-1.webp"
+    ],
+    "statistics": [
+      { "label": "Players Participated", "value": "100+" },
+      { "label": "Villages Represented", "value": "15" },
+      { "label": "Prizes Awarded", "value": "20" }
+    ]
+  }
+]

@@ -25,40 +25,6 @@
 
 /* 1. Google Fonts Import & Variables */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Yatra+One&display=swap');
-/* mobile CSS */
-@media(max-width:768px){
-
-.hero{
-    flex-direction:column;
-    text-align:center;
-}
-
-.hero-content{
-    width:100%;
-}
-
-.hero-image{
-    width:100%;
-}
-
-.cards{
-    grid-template-columns:1fr;
-}
-
-.section{
-    padding:60px 20px;
-}
-
-h1{
-    font-size:2rem;
-}
-
-h2{
-    font-size:1.6rem;
-}
-
-}
-
 :root {
   /* Font Families */
   --font-sans: 'Inter', sans-serif;
@@ -129,6 +95,7 @@ h2{
 .team-card.small{
 
     width:190px;
+    max-width:100%;
     background:#fff;
 
     border-radius:16px;
@@ -537,7 +504,7 @@ header.site-header.scrolled {
 /* Cards */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: 30px;
 }
 
@@ -656,7 +623,7 @@ header.site-header.scrolled {
 
 .counter-num {
   font-family: var(--font-serif);
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   color: var(--color-accent);
   line-height: 1;
@@ -2181,7 +2148,7 @@ footer.site-footer {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 300px;
+    width: 280px;
     height: 100vh;
     background-color: var(--color-white);
     flex-direction: column;
@@ -2190,6 +2157,7 @@ footer.site-footer {
     box-shadow: var(--shadow-lg);
     transition: var(--transition-normal);
     z-index: 1000;
+    overflow-y: auto;
   }
 
   .nav-menu.is-active {
@@ -2197,8 +2165,8 @@ footer.site-footer {
   }
 
   .nav-menu .nav-link {
-    font-size: 1.25rem;
-    padding: 15px 24px;
+    font-size: 1.15rem;
+    padding: 12px 24px;
     width: 100%;
     text-align: center;
     display: block;
@@ -2213,8 +2181,28 @@ footer.site-footer {
     grid-template-columns: 1fr 1fr;
   }
 
-  .counter-item::after {
+  .counter-item:not(:last-child)::after {
     display: none !important;
+  }
+
+  .counter-num {
+    font-size: 2.25rem;
+  }
+
+  .counter-label {
+    font-size: 0.7rem;
+  }
+
+  .impact-intro {
+    flex-direction: column;
+  }
+
+  .impact-intro-graphic {
+    width: 100%;
+  }
+
+  .impact-stat-num {
+    font-size: 2rem;
   }
 
   .timeline-container::before {
@@ -2254,7 +2242,13 @@ footer.site-footer {
   }
 
   .gallery-filters {
-    gap: 8px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
   }
 
   .gallery-masonry-grid {
@@ -2269,16 +2263,49 @@ footer.site-footer {
     grid-template-columns: 1fr 1fr;
   }
 
+  .event-detail-hero {
+    height: 40vh;
+    min-height: 220px;
+  }
+
+  .event-detail-title {
+    font-size: 1.75rem;
+  }
+
   .hero-slider-container {
-    height: 70vh;
+    height: 65vh;
+    min-height: 400px;
   }
 
   .hero-title {
-    font-size: 2.25rem;
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
   }
 
   .insta-preview-container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .team-grid {
+    gap: 15px;
+  }
+
+  .team-card.small {
+    width: 100%;
+    max-width: 200px;
   }
 
   .lightbox-close {
@@ -2297,10 +2324,6 @@ footer.site-footer {
   .lightbox-next {
     right: 15px;
   }
-  .filter-btn {
-    padding: 12px 24px;
-    font-size: 0.95rem;
-  }
   .copy-btn {
     padding: 8px 16px;
     font-size: 0.85rem;
@@ -2316,6 +2339,12 @@ footer.site-footer {
     width: 100%;
     max-width: 280px;
   }
+  .spotlight-slide {
+    width: 220px;
+  }
+  .container {
+    width: 92%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -2328,7 +2357,11 @@ footer.site-footer {
   }
 
   .counter-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .counter-num {
+    font-size: 1.75rem;
   }
 
   .event-detail-gallery-grid {
@@ -2344,6 +2377,52 @@ footer.site-footer {
     gap: 15px;
     text-align: center;
   }
+
+  .hero-slider-container {
+    height: 55vh;
+    min-height: 350px;
+  }
+
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .team-card.small {
+    max-width: 100%;
+  }
+
+  .impact-intro-graphic {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .spotlight-slide {
+    width: 180px;
+  }
+
+  .image-overlay h1 {
+    font-size: 2rem !important;
+  }
+}
+
+.insta-preview-container > .insta-video {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    aspect-ratio: 1;
 }
 
 .insta-video {

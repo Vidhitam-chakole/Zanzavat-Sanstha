@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from supabase import create_client
 import requests
 
+
 app = Flask(__name__, static_folder='.', static_url_path='')
 
 load_dotenv()

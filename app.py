@@ -27,14 +27,16 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 SUPABASE_ENABLED = bool(SUPABASE_URL and SUPABASE_KEY)
 supabase = None
-
-DATA_DIR = os.path.join(os.path.dirname(__file__), "public", "assets", "data")
+if os.getenv("VERCEL"):
+    DATA_DIR = "/tmp/zanzavat_data"
+else:
+    DATA_DIR = os.path.join(os.path.dirname(__file__), "public", "assets", "data")
 REGISTRATIONS_JSON = os.path.join(DATA_DIR, "registrations.json")
 REGISTRATIONS_CSV = os.path.join(DATA_DIR, "registrations.csv")
 CONTACTS_JSON = os.path.join(DATA_DIR, "contacts.json")
 CONTACTS_CSV = os.path.join(DATA_DIR, "contacts.csv")
 
-PROTECTED_FILES = {".env", "server.py", "requirements.txt", ".gitignore", "database.db"}
+PROTECTED_FILES = {".env", "app.py", "requirements.txt", ".gitignore", "database.db"}
 
 
 def ensure_local_data_files():

@@ -368,15 +368,21 @@ def ai_chat():
     except (KeyError, IndexError, TypeError, ValueError):
         return jsonify({"status": "error", "message": "The AI returned an invalid response."}), 502
 
+@app.route('/public/<path:filename>')
+def serve_public(filename):
+    """Serves files from the public directory."""
+    return send_from_directory('public', filename)
+
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    """Serves static files and resource directories, blocking access to sensitive config files."""
+    """Serves root HTML files and other resources."""
     basename = os.path.basename(filename)
+
     if filename.startswith('.') or basename in PROTECTED_FILES:
         return jsonify({"error": "Access denied"}), 403
-    return send_from_directory('.', filename)
 
+    return send_from_directory('.', filename)
 
 # Initialize Supabase client on startup
 init_supabase()

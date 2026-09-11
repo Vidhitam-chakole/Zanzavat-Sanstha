@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "functions": {
-    "api/*.py": {
-      "runtime": "python3.11"
-    }
-  },
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "api/*.py", "use": "@vercel/python" }
+  ],
   "routes": [
     { "src": "/api/register", "dest": "/api/register.py" },
     { "src": "/api/contact", "dest": "/api/contact.py" },
-    { "src": "/api/chat", "dest": "/api/chat.py" }
+    { "src": "/api/chat", "dest": "/api/chat.py" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }

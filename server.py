@@ -1,6 +1,7 @@
 import csv
 import json
 import os
+import tempfile
 import traceback
 from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory
@@ -9,8 +10,7 @@ from dotenv import load_dotenv
 from supabase import create_client
 import requests
 
-
-app = Flask(__name__, static_folder='.', static_url_path='')
+app = Flask(__name__, static_folder=None)
 
 load_dotenv()
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
@@ -28,35 +28,58 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 SUPABASE_ENABLED = bool(SUPABASE_URL and SUPABASE_KEY)
 supabase = None
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "public", "assets", "data")
+PROTECTED_FILES = {".env", "server.py", "requirements.txt", ".gitignore", "database.db", "vercel.json"}
+
+
+def get_data_dir():
+    """Returns a writable directory for local data fallback storage."""
+    default_dir = os.path.join(os.path.dirname(__file__), "public", "assets", "data")
+    try:
+        os.makedirs(default_dir, exist_ok=True)
+        test_file = os.path.join(default_dir, ".write_test")
+        with open(test_file, "w", encoding="utf-8") as f:
+            f.write("ok")
+        os.remove(test_file)
+        return default_dir
+    except OSError:
+        temp_dir = os.path.join(tempfile.gettempdir(), "zanzavat_data")
+        try:
+            os.makedirs(temp_dir, exist_ok=True)
+        except OSError:
+            pass
+        return temp_dir
+
+
+DATA_DIR = get_data_dir()
 REGISTRATIONS_JSON = os.path.join(DATA_DIR, "registrations.json")
 REGISTRATIONS_CSV = os.path.join(DATA_DIR, "registrations.csv")
 CONTACTS_JSON = os.path.join(DATA_DIR, "contacts.json")
 CONTACTS_CSV = os.path.join(DATA_DIR, "contacts.csv")
 
-PROTECTED_FILES = {".env", "server.py", "requirements.txt", ".gitignore", "database.db"}
-
 
 def ensure_local_data_files():
     """Ensures local storage directories and JSON/CSV files exist for fallback."""
-    os.makedirs(DATA_DIR, exist_ok=True)
+    try:
+        os.makedirs(DATA_DIR, exist_ok=True)
 
-    for path in (REGISTRATIONS_JSON, CONTACTS_JSON):
-        if not os.path.exists(path):
-            with open(path, "w", encoding="utf-8") as f:
-                json.dump([], f, indent=2, ensure_ascii=False)
+        for path in (REGISTRATIONS_JSON, CONTACTS_JSON):
+            if not os.path.exists(path):
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump([], f, indent=2, ensure_ascii=False)
 
-    if not os.path.exists(REGISTRATIONS_CSV):
-        with open(REGISTRATIONS_CSV, "w", newline="", encoding="utf-8") as f:
-            fieldnames = ["name", "email", "phone", "interest", "message", "timestamp"]
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
+        if not os.path.exists(REGISTRATIONS_CSV):
+            with open(REGISTRATIONS_CSV, "w", newline="", encoding="utf-8") as f:
+                fieldnames = ["name", "email", "phone", "interest", "message", "timestamp"]
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
 
-    if not os.path.exists(CONTACTS_CSV):
-        with open(CONTACTS_CSV, "w", newline="", encoding="utf-8") as f:
-            fieldnames = ["name", "email", "phone", "subject", "message", "timestamp"]
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
+        if not os.path.exists(CONTACTS_CSV):
+            with open(CONTACTS_CSV, "w", newline="", encoding="utf-8") as f:
+                fieldnames = ["name", "email", "phone", "subject", "message", "timestamp"]
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
+    except OSError as err:
+        print(f"[INFO] Running in a read-only filesystem environment; skipping local fallback file creation ({err}).")
 
 
 def init_supabase():
@@ -81,25 +104,35 @@ def init_supabase():
 
 def save_local_json(filepath, record):
     """Saves a record to a local JSON file."""
-    with open(filepath, "r+", encoding="utf-8") as f:
-        try:
-            data = json.load(f)
-        except json.JSONDecodeError:
-            data = []
+    try:
+        data = []
+        if os.path.exists(filepath):
+            with open(filepath, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                except json.JSONDecodeError:
+                    data = []
         if not isinstance(data, list):
             data = []
         data.append(record)
-        f.seek(0)
-        f.truncate()
-        json.dump(data, f, indent=2, ensure_ascii=False)
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except OSError as err:
+        print(f"[WARNING] Could not save local JSON fallback: {err}")
     return record
 
 
 def save_local_csv(filepath, record, fieldnames):
     """Saves a record to a local CSV file."""
-    with open(filepath, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writerow(record)
+    try:
+        write_header = not os.path.exists(filepath)
+        with open(filepath, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            if write_header:
+                writer.writeheader()
+            writer.writerow(record)
+    except OSError as err:
+        print(f"[WARNING] Could not save local CSV fallback: {err}")
     return record
 
 
@@ -246,7 +279,7 @@ Motivation:
 
 @app.route('/')
 def serve_index():
-    """Serves the home page."""
+    """Serves the home page for local execution."""
     return send_from_directory('.', 'index.html')
 
 

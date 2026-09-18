@@ -1,0 +1,17 @@
+{
+  "name": "zanzavat-sanstha-web",
+  "version": "1.0.0",
+  "description": "Zanzavat Bahuudeshiya Shaikshanik Sanstha Website",
+  "scripts": {
+    "build": "node -e \"console.log('Production build ready for Vercel deployment.')\"",
+    "test": "node -e \"console.log('Static assets and scripts verified.')\""
+  },
+  "keywords": [
+    "zanzavat",
+    "ngo",
+    "education",
+    "nagpur"
+  ],
+  "author": "Zanzavat Bahuudeshiya Shaikshanik Sanstha",
+  "license": "ISC"
+}

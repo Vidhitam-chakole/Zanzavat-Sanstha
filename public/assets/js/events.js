@@ -22,7 +22,7 @@ class EventsRouter {
    */
   async init() {
     try {
-      const response = await fetch('public/assets/data/events.json');
+      const response = await fetch('/assets/data/events.json');
       if (!response.ok) {
         throw new Error('Failed to load events database');
       }
@@ -76,7 +76,7 @@ class EventsRouter {
       card.className = 'card reveal active';
       card.innerHTML = `
         <div class="card-img-wrapper">
-          <img src="${event.coverImage}" alt="${event.title}" onerror="this.src='public/assets/images/logo/logo-placeholder.webp';">
+          <img src="${event.coverImage}" alt="${event.title}" onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
         </div>
         <div class="card-content">
           <div class="card-meta">
@@ -167,7 +167,7 @@ class EventsRouter {
         const item = document.createElement('div');
         item.className = 'event-detail-gallery-item';
         item.innerHTML = `
-          <img src="${imgUrl}" alt="Event photo" onerror="this.src='public/assets/images/logo/logo-placeholder.webp';">
+          <img src="${imgUrl}" alt="Event photo" onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
         `;
         item.addEventListener('click', () => {
           if (typeof openLightbox === 'function') {

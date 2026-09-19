@@ -283,6 +283,12 @@ def serve_index():
     return send_from_directory('.', 'index.html')
 
 
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    """Serves browser-facing assets from the public assets directory."""
+    return send_from_directory(os.path.join('public', 'assets'), filename)
+
+
 @app.route('/api/register', methods=['POST'])
 def register_volunteer():
     """Handles volunteer registration form requests, saving to Supabase (or local fallback)."""

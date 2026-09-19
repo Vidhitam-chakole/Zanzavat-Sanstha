@@ -30,7 +30,7 @@
       ]
     },
     {
-      "source": "/public/assets/(.*)",
+      "source": "/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

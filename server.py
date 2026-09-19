@@ -283,6 +283,41 @@ def serve_index():
     return send_from_directory('.', 'index.html')
 
 
+@app.route('/about')
+def serve_about():
+    return send_from_directory('.', 'about.html')
+
+
+@app.route('/impact')
+def serve_impact():
+    return send_from_directory('.', 'impact.html')
+
+
+@app.route('/programs')
+def serve_programs():
+    return send_from_directory('.', 'programs.html')
+
+
+@app.route('/events')
+def serve_events():
+    return send_from_directory('.', 'events.html')
+
+
+@app.route('/join')
+def serve_join():
+    return send_from_directory('.', 'join.html')
+
+
+@app.route('/donate')
+def serve_donate():
+    return send_from_directory('.', 'donate.html')
+
+
+@app.route('/contact')
+def serve_contact():
+    return send_from_directory('.', 'contact.html')
+
+
 @app.route('/assets/<path:filename>')
 def serve_assets(filename):
     """Serves browser-facing assets from the public assets directory."""

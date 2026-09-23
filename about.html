@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -240,58 +240,572 @@
   </div>
   </div>
  </section>
- <!-- Timeline Section -->
- <section style="background-color: var(--color-bg-alt);" class="reveal">
+ <!-- The Story of Us / Roadmap Timeline Section -->
+ <section class="story-roadmap-section reveal" style="background-color: var(--color-bg-alt); padding: 90px 0; overflow: hidden;">
+  <style>
+   .story-roadmap-section {
+    position: relative;
+   }
+   .story-banner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFF3E0;
+    color: #D35400;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 12px;
+    border: 1px solid #FFE0B2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+   }
+   .story-title-main {
+    font-family: var(--font-serif);
+    font-size: 2.8rem;
+    color: var(--color-charcoal);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+   }
+   .story-title-main span {
+    color: var(--color-primary);
+    position: relative;
+    display: inline-block;
+   }
+   .story-title-main span::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgba(244, 180, 26, 0.4);
+    z-index: -1;
+    border-radius: 4px;
+   }
+   .story-subtitle {
+    max-width: 680px;
+    margin: 0 auto 50px auto;
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+   }
+
+   /* Road Milestone Blocks */
+   .roadmap-year-block {
+    margin-bottom: 50px;
+    position: relative;
+   }
+
+   /* Milestone Pillar Stone (Inspired by Indian Highway Milestone) */
+   .milestone-pillar-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 35px;
+    position: relative;
+    z-index: 5;
+   }
+   .milestone-pillar {
+    width: 140px;
+    background: #FFFFFF;
+    border-radius: 45px 45px 12px 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
+    overflow: hidden;
+    text-align: center;
+    border: 3px solid #FFFFFF;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+   }
+   .milestone-pillar:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 16px 36px rgba(200, 35, 51, 0.2);
+   }
+   .milestone-cap {
+    background: linear-gradient(135deg, #F4B41A, #E59800);
+    padding: 16px 10px 10px;
+    color: #1E1E24;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+   }
+   .milestone-body {
+    padding: 12px 10px 14px;
+    background: #FFFFFF;
+   }
+   .milestone-year-text {
+    font-family: var(--font-sans);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1E1E24;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+   }
+   .milestone-arrow {
+    color: var(--color-primary);
+    font-size: 1.3rem;
+   }
+
+   /* Road & Timeline Track */
+   .roadmap-track {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 0;
+   }
+
+   /* Central Asphalt Road line */
+   .roadmap-track::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    background: #2B2D42;
+    border-radius: 14px;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.5), 0 4px 15px rgba(0,0,0,0.08);
+   }
+
+   /* Road dashed white line */
+   .roadmap-track::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    background-image: linear-gradient(to bottom, #FFFFFF 60%, transparent 40%);
+    background-size: 3px 24px;
+    z-index: 2;
+   }
+
+   /* Road checkpoints */
+   .road-checkpoint {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 40px;
+    width: 100%;
+   }
+
+   .road-checkpoint:last-child {
+    margin-bottom: 10px;
+   }
+
+   .road-checkpoint.left {
+    justify-content: flex-start;
+   }
+   .road-checkpoint.right {
+    justify-content: flex-end;
+   }
+
+   /* Pin on the Road */
+   .checkpoint-pin-anchor {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+   .pin-marker {
+    width: 38px;
+    height: 38px;
+    background: #C82333;
+    border: 3px solid #FFFFFF;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(200, 35, 51, 0.45);
+    transition: transform 0.3s ease, background 0.3s ease;
+    cursor: pointer;
+   }
+   .pin-marker::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    transform: rotate(45deg);
+   }
+   .road-checkpoint:hover .pin-marker {
+    transform: rotate(-45deg) scale(1.15);
+    background: #E05A47;
+   }
+
+   /* Checkpoint Card */
+   .checkpoint-card {
+    width: calc(50% - 48px);
+    background: #FFFFFF;
+    padding: 22px 26px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+   }
+   .road-checkpoint:hover .checkpoint-card {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.1);
+    border-color: rgba(200, 35, 51, 0.2);
+   }
+
+   /* Pointer connector from card to road */
+   .road-checkpoint.left .checkpoint-card::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 18px;
+    height: 18px;
+    background: #FFFFFF;
+    border-right: 1px solid rgba(0,0,0,0.06);
+    border-top: 1px solid rgba(0,0,0,0.06);
+   }
+   .road-checkpoint.right .checkpoint-card::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 18px;
+    height: 18px;
+    background: #FFFFFF;
+    border-left: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+   }
+
+   .checkpoint-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-primary);
+    background: rgba(200, 35, 51, 0.08);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+   }
+   .checkpoint-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-charcoal);
+    margin-bottom: 8px;
+    line-height: 1.3;
+   }
+   .checkpoint-desc {
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+    line-height: 1.55;
+   }
+
+   /* Decorative School Bus Motif */
+   .bus-decorative-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px auto;
+    position: relative;
+    z-index: 3;
+   }
+   .bus-badge {
+    background: #F4B41A;
+    color: #1E1E24;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 18px rgba(244, 180, 26, 0.4);
+    border: 2px solid #FFFFFF;
+    animation: gentleBounce 2.5s infinite ease-in-out;
+   }
+   @keyframes gentleBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+   }
+
+   /* Responsive Layout for Tablets and Mobile */
+   @media (max-width: 768px) {
+    .story-title-main {
+     font-size: 2.1rem;
+    }
+    .roadmap-track::before {
+     left: 28px;
+    }
+    .roadmap-track::after {
+     left: 28px;
+    }
+    .road-checkpoint {
+     justify-content: flex-start !important;
+     padding-left: 60px;
+     margin-bottom: 30px;
+    }
+    .checkpoint-pin-anchor {
+     left: 28px;
+    }
+    .checkpoint-card {
+     width: 100%;
+     padding: 18px 20px;
+    }
+    .road-checkpoint.left .checkpoint-card::after,
+    .road-checkpoint.right .checkpoint-card::after {
+     left: -8px;
+     right: auto;
+     border-left: 1px solid rgba(0,0,0,0.06);
+     border-bottom: 1px solid rgba(0,0,0,0.06);
+     border-right: none;
+     border-top: none;
+    }
+   }
+  </style>
+
   <div class="container">
-   <div class="section-header">
-    <span class="section-tag">Our Milestones</span>
-    <h2>Our Journey</h2>
-    <p>A look at the key moments and growth of our organization over the decades.</p>
+   <!-- Section Header -->
+   <div class="section-header" style="text-align: center; margin-bottom: 40px;">
+    <span class="story-banner-badge">📍 Road to Empowerment</span>
+    <h2 class="story-title-main">The <span>Story of Us</span></h2>
+    <p class="story-subtitle">
+     A visual journey along the path of our major outreach initiatives, educational drives, youth programs, and community support milestones over the years.
+    </p>
    </div>
 
-   <div class="timeline-container">
-    <!-- Milestone 1 -->
-    <div class="timeline-item">
-     <div class="timeline-dot"></div>
-     <div class="timeline-date">Donation Drive in-</div>
-     <div class="timeline-card">
-      <h4>NGO's </h4>
-      <h4> Old age homes </h4>
-      <h4>Slum areas</h4>
-      
+   <!-- ==================== 2024 ROADMAP ==================== -->
+   <div class="roadmap-year-block">
+    <div class="milestone-pillar-wrapper">
+     <div class="milestone-pillar">
+      <div class="milestone-cap">Milestone</div>
+      <div class="milestone-body">
+       <div class="milestone-year-text">2024 <span class="milestone-arrow">➔</span></div>
+      </div>
      </div>
     </div>
 
-    <!-- Milestone 2 -->
-    <div class="timeline-item">
-     <div class="timeline-dot"></div>
-     <div class="timeline-date">Donation Drive</div>
-     <div class="timeline-card">
-      <h4>First Rural Medical Camp</h4>
-      <p>Initiated free checkup services and distributed vital medications to over 100 rural families.</p>
+    <div class="roadmap-track">
+     <!-- Checkpoint 1: Visit to Raman Science Centre -->
+     <div class="road-checkpoint left">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Visit to Raman Science Centre"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Education & Exposure</span>
+       <h3 class="checkpoint-title">Visit to Raman Science Centre</h3>
+       <p class="checkpoint-desc">Organized an educational exposure visit to Raman Science Centre, sparking curiosity and scientific temper among underprivileged school children.</p>
+      </div>
      </div>
-    </div>
 
-    <!-- Milestone 3 -->
-    <div class="timeline-item">
-     <div class="timeline-dot"></div>
-     <div class="timeline-date">2015</div>
-     <div class="timeline-card">
-      <h4>Focus on Student Welfare</h4>
-      <p>Launched structured sponsorship programs for uniforms, stationary, and study guidance centers.</p>
+     <!-- Checkpoint 2: Donation Drive -->
+     <div class="road-checkpoint right">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Donation Drive"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Community Support</span>
+       <h3 class="checkpoint-title">Donation Drive</h3>
+       <p class="checkpoint-desc">Conducted grassroots donation drives distributing essential daily provisions, clothing, and materials to underserved local settlements.</p>
+      </div>
      </div>
-    </div>
 
-    <!-- Milestone 4 -->
-    <div class="timeline-item">
-     <div class="timeline-dot"></div>
-     <div class="timeline-date">2026</div>
-     <div class="timeline-card">
-      <h4>Expanded Child Development</h4>
-      <p>Currently supporting 75+ active children, running multiple camps, with a goal to scale to new areas.</p>
+     <!-- Checkpoint 3: Independence Day Celebration -->
+     <div class="road-checkpoint left">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Independence Day Celebration"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">National Pride</span>
+       <h3 class="checkpoint-title">Independence Day Celebration</h3>
+       <p class="checkpoint-desc">Celebrated national independence with children through flag hoisting, patriotic cultural activities, educational games, and treat distribution.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 4: Ganapati Celebration -->
+     <div class="road-checkpoint right">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Ganapati Celebration"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Cultural Harmony</span>
+       <h3 class="checkpoint-title">Ganapati Celebration</h3>
+       <p class="checkpoint-desc">Engaged youth and community members in festive Ganapati celebrations, promoting unity, creativity, and cultural bonding.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 5: Checkmate 1.0 -->
+     <div class="road-checkpoint left">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Checkmate 1.0"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Strategic Sports</span>
+       <h3 class="checkpoint-title">Checkmate 1.0</h3>
+       <p class="checkpoint-desc">Inaugural edition of the youth chess tournament fostering strategic thinking, focus, and competitive spirit among young students.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 6: Diwali Donation Drive -->
+     <div class="road-checkpoint right">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Diwali Donation Drive"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Festive Joy</span>
+       <h3 class="checkpoint-title">Diwali Donation Drive</h3>
+       <p class="checkpoint-desc">Brought smiles and warmth to families in need during the festival of lights with ration kits, sweets, diyas, and clothing.</p>
+      </div>
      </div>
     </div>
    </div>
+
+   <!-- Bus Traveling Motif -->
+   <div class="bus-decorative-indicator">
+    <div class="bus-badge">
+     <span style="font-size: 1.3rem;">🚌</span> Zanzavat Journey in Progress
+    </div>
+   </div>
+
+   <!-- ==================== 2025 ROADMAP ==================== -->
+   <div class="roadmap-year-block">
+    <div class="milestone-pillar-wrapper">
+     <div class="milestone-pillar">
+      <div class="milestone-cap">Milestone</div>
+      <div class="milestone-body">
+       <div class="milestone-year-text">2025 <span class="milestone-arrow">➔</span></div>
+      </div>
+     </div>
+    </div>
+
+    <div class="roadmap-track">
+     <!-- Checkpoint 7: Donation Drive at Old Age Home -->
+     <div class="road-checkpoint left">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Donation Drive at Old Age Home"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Elderly Care</span>
+       <h3 class="checkpoint-title">Donation Drive at Old Age Home</h3>
+       <p class="checkpoint-desc">Delivered care packages, personal care essentials, and warm clothing to senior citizen residents at local elder care facilities.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 8: Workshop at Ganpati Pandal -->
+     <div class="road-checkpoint right">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Workshop at Ganpati Pandal"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Community Outreach</span>
+       <h3 class="checkpoint-title">Workshop at Ganpati Pandal</h3>
+       <p class="checkpoint-desc">Organized community awareness and children’s educational workshops directly within festive Ganpati pandals.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 9: Visit to Old Age Home -->
+     <div class="road-checkpoint left">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Visit to Old Age Home"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Compassion & Companionship</span>
+       <h3 class="checkpoint-title">Visit to Old Age Home</h3>
+       <p class="checkpoint-desc">Special volunteer visit spending quality time, engaging in storytelling sessions, and providing emotional support to the elderly.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 10: Udaan -->
+     <div class="road-checkpoint right">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Udaan"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Youth Empowerment</span>
+       <h3 class="checkpoint-title">Udaan</h3>
+       <p class="checkpoint-desc">Our flagship developmental initiative providing wings to ambitious youth through skill building, guidance, and educational sponsorship.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 11: Educating India for India -->
+     <div class="road-checkpoint left">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Educating India for India"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Grassroots Education</span>
+       <h3 class="checkpoint-title">Educating India for India</h3>
+       <p class="checkpoint-desc">Dedicated campaign delivering learning kits, stationary, and study assistance to empower students across underprivileged communities.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <!-- ==================== 2026 ROADMAP ==================== -->
+   <div class="roadmap-year-block">
+    <div class="milestone-pillar-wrapper">
+     <div class="milestone-pillar">
+      <div class="milestone-cap">Milestone</div>
+      <div class="milestone-body">
+       <div class="milestone-year-text">2026 <span class="milestone-arrow">➔</span></div>
+      </div>
+     </div>
+    </div>
+
+    <div class="roadmap-track">
+     <!-- Checkpoint 12: Workshop on First Aid for intellectually disabled kids -->
+     <div class="road-checkpoint left">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Workshop on First Aid for intellectually disabled kids"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Special Needs Healthcare</span>
+       <h3 class="checkpoint-title">Workshop on First Aid for Intellectually Disabled Kids</h3>
+       <p class="checkpoint-desc">Conducted hands-on, specialized basic first aid and safety workshops tailored specifically for intellectually disabled children and their caretakers.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 13: Visit to Lata Mangeshkar Hospital -->
+     <div class="road-checkpoint right">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Visit to Lata Mangeshkar Hospital"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Medical Outreach</span>
+       <h3 class="checkpoint-title">Visit to Lata Mangeshkar Hospital</h3>
+       <p class="checkpoint-desc">Healthcare outreach visit providing patient comfort kits, emotional cheer, and vital medical support coordination for needy families.</p>
+      </div>
+     </div>
+
+     <!-- Checkpoint 14: Checkmate 2.0 -->
+     <div class="road-checkpoint left">
+      <div class="checkpoint-pin-anchor">
+       <div class="pin-marker" title="Checkmate 2.0"></div>
+      </div>
+      <div class="checkpoint-card">
+       <span class="checkpoint-badge">Championship Tour</span>
+       <h3 class="checkpoint-title">Checkmate 2.0</h3>
+       <p class="checkpoint-desc">Second major edition of Vidarbha's premier chess championship tournament, bringing together hundreds of young minds to compete and grow.</p>
+      </div>
+     </div>
+    </div>
+   </div>
+
   </div>
  </section>
 

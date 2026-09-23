@@ -1,4 +1,4 @@
-# DEPLOYMENT GUIDE — Zanzavat Sanstha Website
+﻿# DEPLOYMENT GUIDE — Zanzavat Sanstha Website
 
 > **Read this file first.** It contains everything needed to understand, configure, and deploy the project. Do not read source files unless you need to modify logic.
 
@@ -6,7 +6,7 @@
 
 ## 1. Project Overview
 
-An NGO website for **Zanzavat Bahuudeshiya Shaikshanik Sanstha** (est. 1995, Nagpur, India). Static HTML/CSS/JS frontend with a Python Flask backend serving 3 API endpoints. Data persists to Supabase (cloud) with local JSON/CSV fallback. AI chat powered by Groq API. Email notifications via Flask-Mail (Gmail SMTP).
+An NGO website for **Zanzavat Bahuudeshiya Shaikshanik Sanstha** (est., Nagpur, India). Static HTML/CSS/JS frontend with a Python Flask backend serving 3 API endpoints. Data persists to Supabase (cloud) with local JSON/CSV fallback. AI chat powered by Groq API. Email notifications via Flask-Mail (Gmail SMTP).
 
 ---
 
@@ -14,49 +14,48 @@ An NGO website for **Zanzavat Bahuudeshiya Shaikshanik Sanstha** (est. 1995, Nag
 
 ```
 Zanzavat-Sanstha-Web-page/
-├── index.html                  # Home page (hero carousel, counters, programs, AI chat, insta videos)
-├── about.html                  # History, mission/vision, leadership team, timeline
-├── impact.html                 # Statistics, beneficiary stories, achievement cards
-├── programs.html               # 5 focus areas: education, medical, food, clothing, welfare
-├── events.html                 # Dynamic events list + detail view (JS-driven from events.json)
-├── join.html                   # Volunteer registration form → /api/register
-├── donate.html                 # Sponsorship tiers + UPI QR placeholder
-├── contact.html                # Contact form → /api/contact
-├── server.py                   # Flask backend (main server entry point)
-├── requirements.txt            # Python dependencies (6 packages)
-├── .env                        # Secrets (NOT in git, .gitignore'd)
-├── .gitignore                  # Standard Python gitignore
-├── README.md                   # Project documentation
-├── DEPLOY.md                   # THIS FILE — deployment guide
+├── index.html         # Home page (hero carousel, counters, programs, AI chat, insta videos)
+├── about.html         # History, mission/vision, leadership team, timeline
+├── impact.html         # Statistics, beneficiary stories, achievement cards
+├── events.html         # Dynamic events list + detail view (JS-driven from events.json)
+├── join.html          # Volunteer registration form → /api/register
+├── donate.html         # Sponsorship tiers + UPI QR placeholder
+├── contact.html        # Contact form → /api/contact
+├── server.py          # Flask backend (main server entry point)
+├── requirements.txt      # Python dependencies (6 packages)
+├──.env            # Secrets (NOT in git,.gitignore'd)
+├──.gitignore         # Standard Python gitignore
+├── README.md          # Project documentation
+├── DEPLOY.md          # THIS FILE — deployment guide
 ├── public/
-│   └── assets/
-│       ├── css/
-│       │   └── style.css       # Single responsive stylesheet (~2500 lines)
-│       ├── js/
-│       │   ├── main.js         # Core app class (nav, scroll, carousel, forms, AI chat)
-│       │   ├── events.js       # EventsRouter class (hash-based event detail routing)
-│       │   └── gallery.js      # GalleryController class (lightbox, filters, spotlight slider)
-│       ├── data/
-│       │   ├── events.json     # Events database (5 sample events)
-│       │   ├── contacts.json   # Contact form submissions (local fallback)
-│       │   └── registrations.json  # Volunteer registrations (local fallback)
-│       └── images/
-│           ├── README.md       # Image sizing/naming guide
-│           ├── hero/           # hero-1.webp, hero-2.webp, hero-3.webp
-│           ├── about/          # about-main.webp, about-banner.webp
-│           ├── impact/         # impact-banner.webp, story-1.webp, story-2.webp
-│           ├── education-support/  # edu-card.webp, edu-banner.webp, edu-focus.webp
-│           ├── medical-camps/      # med-card.webp, med-focus.webp
-│           ├── food-distribution/  # food-card.webp, food-focus.webp
-│           ├── clothing-drives/    # clothing-focus.webp
-│           ├── student-welfare/    # welfare-focus.webp
-│           ├── volunteers/         # vol-banner.webp
-│           ├── leadership/         # ajinkya-bhakre.webp, arya-sontake.webp
-│           ├── team/               # member1.jpg through member12.jpg
-│           ├── donations/          # donate-banner.webp
-│           ├── gallery/            # Video-1.mp4 through Video-6.mp4
-│           ├── logo/               # logo-placeholder.webp
-│           └── zanzavat-logo/      # zanzavat_logo.png
+│  └── assets/
+│    ├── css/
+│    │  └── style.css    # Single responsive stylesheet (~2500 lines)
+│    ├── js/
+│    │  ├── main.js     # Core app class (nav, scroll, carousel, forms, AI chat)
+│    │  ├── events.js    # EventsRouter class (hash-based event detail routing)
+│    │  └── gallery.js   # GalleryController class (lightbox, filters, spotlight slider)
+│    ├── data/
+│    │  ├── events.json   # Events database (5 sample events)
+│    │  ├── contacts.json  # Contact form submissions (local fallback)
+│    │  └── registrations.json # Volunteer registrations (local fallback)
+│    └── images/
+│      ├── README.md    # Image sizing/naming guide
+│      ├── hero/      # hero-1.webp, hero-2.webp, hero-3.webp
+│      ├── about/     # about-main.webp, about-banner.webp
+│      ├── impact/     # impact-banner.webp, story-1.webp, story-2.webp
+│      ├── education-support/ # edu-card.webp, edu-banner.webp, edu-focus.webp
+│      ├── medical-camps/   # med-card.webp, med-focus.webp
+│      ├── food-distribution/ # food-card.webp, food-focus.webp
+│      ├── clothing-drives/  # clothing-focus.webp
+│      ├── student-welfare/  # welfare-focus.webp
+│      ├── volunteers/     # vol-banner.webp
+│      ├── leadership/     # ajinkya-bhakre.webp, aryaki-sontakke.webp
+│      ├── team/        # member1.jpg through member12.jpg
+│      ├── donations/     # donate-banner.webp
+│      ├── gallery/      # Video-1.mp4 through Video-6.mp4
+│      ├── logo/        # logo-placeholder.webp
+│      └── zanzavat-logo/   # zanzavat_logo.png
 ```
 
 ---
@@ -170,27 +169,27 @@ Vercel doesn't support long-running Flask processes. Convert to serverless funct
 ```
 ├── vercel.json
 ├── api/
-│   ├── register.py    # Serverless function
-│   ├── contact.py     # Serverless function
-│   └── chat.py        # Serverless function
-├── index.html         # Vercel serves root as static
+│  ├── register.py  # Serverless function
+│  ├── contact.py   # Serverless function
+│  └── chat.py    # Serverless function
+├── index.html     # Vercel serves root as static
 ├── about.html
-├── ... (all HTML files stay at root)
-└── public/            # Assets (CSS, JS, images, data)
-    └── assets/...
+├──... (all HTML files stay at root)
+└── public/      # Assets (CSS, JS, images, data)
+  └── assets/...
 ```
 
 **vercel.json:**
 ```json
 {
-  "version": 2,
-  "builds": [
-    { "src": "api/**/*.py", "use": "@vercel/python" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
-  ]
+ "version": 2,
+ "builds": [
+  { "src": "api/**/*.py", "use": "@vercel/python" }
+ ],
+ "routes": [
+  { "src": "/api/(.*)", "dest": "/api/$1" },
+  { "src": "/(.*)", "dest": "/$1" }
+ ]
 }
 ```
 
@@ -200,15 +199,15 @@ from http.server import BaseHTTPRequestHandler
 import json, os
 
 class handler(BaseHTTPRequestHandler):
-    def do_POST(self):
-        content_length = int(self.headers.get('Content-Length', 0))
-        body = self.rfile.read(content_length)
-        data = json.loads(body)
-        # ... process data ...
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps(result).encode())
+  def do_POST(self):
+    content_length = int(self.headers.get('Content-Length', 0))
+    body = self.rfile.read(content_length)
+    data = json.loads(body)
+    #... process data...
+    self.send_response(200)
+    self.send_header('Content-Type', 'application/json')
+    self.end_headers()
+    self.wfile.write(json.dumps(result).encode())
 ```
 
 **Deploy:** `vercel` CLI or connect GitHub repo at vercel.com
@@ -262,23 +261,23 @@ If tables don't exist, create them in the Supabase SQL editor:
 
 ```sql
 CREATE TABLE registrations (
-  id BIGSERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  phone TEXT NOT NULL,
-  interest TEXT NOT NULL,
-  message TEXT NOT NULL,
-  timestamp TEXT NOT NULL
+ id BIGSERIAL PRIMARY KEY,
+ name TEXT NOT NULL,
+ email TEXT NOT NULL,
+ phone TEXT NOT NULL,
+ interest TEXT NOT NULL,
+ message TEXT NOT NULL,
+ timestamp TEXT NOT NULL
 );
 
 CREATE TABLE contacts (
-  id BIGSERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  phone TEXT NOT NULL,
-  subject TEXT NOT NULL,
-  message TEXT NOT NULL,
-  timestamp TEXT NOT NULL
+ id BIGSERIAL PRIMARY KEY,
+ name TEXT NOT NULL,
+ email TEXT NOT NULL,
+ phone TEXT NOT NULL,
+ subject TEXT NOT NULL,
+ message TEXT NOT NULL,
+ timestamp TEXT NOT NULL
 );
 ```
 

@@ -1,4 +1,4 @@
-import csv
+﻿import csv
 import json
 import os
 import tempfile
@@ -32,22 +32,22 @@ PROTECTED_FILES = {".env", "server.py", "requirements.txt", ".gitignore", "datab
 
 
 def get_data_dir():
-    """Returns a writable directory for local data fallback storage."""
-    default_dir = os.path.join(os.path.dirname(__file__), "public", "assets", "data")
+  """Returns a writable directory for local data fallback storage."""
+  default_dir = os.path.join(os.path.dirname(__file__), "public", "assets", "data")
+  try:
+    os.makedirs(default_dir, exist_ok=True)
+    test_file = os.path.join(default_dir, ".write_test")
+    with open(test_file, "w", encoding="utf-8") as f:
+      f.write("ok")
+    os.remove(test_file)
+    return default_dir
+  except OSError:
+    temp_dir = os.path.join(tempfile.gettempdir(), "zanzavat_data")
     try:
-        os.makedirs(default_dir, exist_ok=True)
-        test_file = os.path.join(default_dir, ".write_test")
-        with open(test_file, "w", encoding="utf-8") as f:
-            f.write("ok")
-        os.remove(test_file)
-        return default_dir
+      os.makedirs(temp_dir, exist_ok=True)
     except OSError:
-        temp_dir = os.path.join(tempfile.gettempdir(), "zanzavat_data")
-        try:
-            os.makedirs(temp_dir, exist_ok=True)
-        except OSError:
-            pass
-        return temp_dir
+      pass
+    return temp_dir
 
 
 DATA_DIR = get_data_dir()
@@ -58,133 +58,133 @@ CONTACTS_CSV = os.path.join(DATA_DIR, "contacts.csv")
 
 
 def ensure_local_data_files():
-    """Ensures local storage directories and JSON/CSV files exist for fallback."""
-    try:
-        os.makedirs(DATA_DIR, exist_ok=True)
+  """Ensures local storage directories and JSON/CSV files exist for fallback."""
+  try:
+    os.makedirs(DATA_DIR, exist_ok=True)
 
-        for path in (REGISTRATIONS_JSON, CONTACTS_JSON):
-            if not os.path.exists(path):
-                with open(path, "w", encoding="utf-8") as f:
-                    json.dump([], f, indent=2, ensure_ascii=False)
+    for path in (REGISTRATIONS_JSON, CONTACTS_JSON):
+      if not os.path.exists(path):
+        with open(path, "w", encoding="utf-8") as f:
+          json.dump([], f, indent=2, ensure_ascii=False)
 
-        if not os.path.exists(REGISTRATIONS_CSV):
-            with open(REGISTRATIONS_CSV, "w", newline="", encoding="utf-8") as f:
-                fieldnames = ["name", "email", "phone", "interest", "message", "timestamp"]
-                writer = csv.DictWriter(f, fieldnames=fieldnames)
-                writer.writeheader()
+    if not os.path.exists(REGISTRATIONS_CSV):
+      with open(REGISTRATIONS_CSV, "w", newline="", encoding="utf-8") as f:
+        fieldnames = ["name", "email", "phone", "interest", "message", "timestamp"]
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
 
-        if not os.path.exists(CONTACTS_CSV):
-            with open(CONTACTS_CSV, "w", newline="", encoding="utf-8") as f:
-                fieldnames = ["name", "email", "phone", "subject", "message", "timestamp"]
-                writer = csv.DictWriter(f, fieldnames=fieldnames)
-                writer.writeheader()
-    except OSError as err:
-        print(f"[INFO] Running in a read-only filesystem environment; skipping local fallback file creation ({err}).")
+    if not os.path.exists(CONTACTS_CSV):
+      with open(CONTACTS_CSV, "w", newline="", encoding="utf-8") as f:
+        fieldnames = ["name", "email", "phone", "subject", "message", "timestamp"]
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+  except OSError as err:
+    print(f"[INFO] Running in a read-only filesystem environment; skipping local fallback file creation ({err}).")
 
 
 def init_supabase():
-    """Initializes the Supabase client for cloud storage, with local fallback."""
-    global supabase
-    ensure_local_data_files()
+  """Initializes the Supabase client for cloud storage, with local fallback."""
+  global supabase
+  ensure_local_data_files()
 
-    if not SUPABASE_ENABLED:
-        print("[INFO] Supabase credentials not configured; using local fallback storage.")
-        return
+  if not SUPABASE_ENABLED:
+    print("[INFO] Supabase credentials not configured; using local fallback storage.")
+    return
 
-    try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-        # Check connectivity to registrations table
-        supabase.table("registrations").select("*").limit(1).execute()
-        print("[OK] Supabase client initialized successfully.")
-    except Exception as e:
-        print(f"[WARNING] Supabase initialization check failed: {e}")
-        print("[INFO] Falling back to local storage.")
-        supabase = None
+  try:
+    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    # Check connectivity to registrations table
+    supabase.table("registrations").select("*").limit(1).execute()
+    print("[OK] Supabase client initialized successfully.")
+  except Exception as e:
+    print(f"[WARNING] Supabase initialization check failed: {e}")
+    print("[INFO] Falling back to local storage.")
+    supabase = None
 
 
 def save_local_json(filepath, record):
-    """Saves a record to a local JSON file."""
-    try:
-        data = []
-        if os.path.exists(filepath):
-            with open(filepath, "r", encoding="utf-8") as f:
-                try:
-                    data = json.load(f)
-                except json.JSONDecodeError:
-                    data = []
-        if not isinstance(data, list):
-            data = []
-        data.append(record)
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-    except OSError as err:
-        print(f"[WARNING] Could not save local JSON fallback: {err}")
-    return record
+  """Saves a record to a local JSON file."""
+  try:
+    data = []
+    if os.path.exists(filepath):
+      with open(filepath, "r", encoding="utf-8") as f:
+        try:
+          data = json.load(f)
+        except json.JSONDecodeError:
+          data = []
+    if not isinstance(data, list):
+      data = []
+    data.append(record)
+    with open(filepath, "w", encoding="utf-8") as f:
+      json.dump(data, f, indent=2, ensure_ascii=False)
+  except OSError as err:
+    print(f"[WARNING] Could not save local JSON fallback: {err}")
+  return record
 
 
 def save_local_csv(filepath, record, fieldnames):
-    """Saves a record to a local CSV file."""
-    try:
-        write_header = not os.path.exists(filepath)
-        with open(filepath, "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            if write_header:
-                writer.writeheader()
-            writer.writerow(record)
-    except OSError as err:
-        print(f"[WARNING] Could not save local CSV fallback: {err}")
-    return record
+  """Saves a record to a local CSV file."""
+  try:
+    write_header = not os.path.exists(filepath)
+    with open(filepath, "a", newline="", encoding="utf-8") as f:
+      writer = csv.DictWriter(f, fieldnames=fieldnames)
+      if write_header:
+        writer.writeheader()
+      writer.writerow(record)
+  except OSError as err:
+    print(f"[WARNING] Could not save local CSV fallback: {err}")
+  return record
 
 
 def insert_registration(record):
-    """Inserts a volunteer registration record into Supabase or falls back to local storage."""
-    if supabase:
-        try:
-            response = supabase.table("registrations").insert(record).execute()
-            return response.data
-        except Exception as e:
-            print(f"[WARNING] Supabase registration save failed; saving locally. Error: {e}")
+  """Inserts a volunteer registration record into Supabase or falls back to local storage."""
+  if supabase:
+    try:
+      response = supabase.table("registrations").insert(record).execute()
+      return response.data
+    except Exception as e:
+      print(f"[WARNING] Supabase registration save failed; saving locally. Error: {e}")
 
-    save_local_json(REGISTRATIONS_JSON, record)
-    save_local_csv(
-        REGISTRATIONS_CSV,
-        record,
-        ["name", "email", "phone", "interest", "message", "timestamp"],
-    )
-    return record
+  save_local_json(REGISTRATIONS_JSON, record)
+  save_local_csv(
+    REGISTRATIONS_CSV,
+    record,
+    ["name", "email", "phone", "interest", "message", "timestamp"],
+  )
+  return record
 
 
 def insert_contact(record):
-    """Inserts a contact submission record into Supabase or falls back to local storage."""
-    if supabase:
-        try:
-            response = supabase.table("contacts").insert(record).execute()
-            return response.data
-        except Exception as e:
-            print(f"[WARNING] Supabase contact save failed; saving locally. Error: {e}")
+  """Inserts a contact submission record into Supabase or falls back to local storage."""
+  if supabase:
+    try:
+      response = supabase.table("contacts").insert(record).execute()
+      return response.data
+    except Exception as e:
+      print(f"[WARNING] Supabase contact save failed; saving locally. Error: {e}")
 
-    save_local_json(CONTACTS_JSON, record)
-    save_local_csv(
-        CONTACTS_CSV,
-        record,
-        ["name", "email", "phone", "subject", "message", "timestamp"],
-    )
-    return record
+  save_local_json(CONTACTS_JSON, record)
+  save_local_csv(
+    CONTACTS_CSV,
+    record,
+    ["name", "email", "phone", "subject", "message", "timestamp"],
+  )
+  return record
 
 
 def send_contact_email(name, email, phone, subject, message):
-    """Sends a notification email for new contact form submissions."""
-    if not app.config.get("MAIL_USERNAME") or not app.config.get("MAIL_PASSWORD"):
-        print("[INFO] Mail credentials not set; skipping contact notification email.")
-        return
+  """Sends a notification email for new contact form submissions."""
+  if not app.config.get("MAIL_USERNAME") or not app.config.get("MAIL_PASSWORD"):
+    print("[INFO] Mail credentials not set; skipping contact notification email.")
+    return
 
-    msg = Message(
-        subject=f"New Contact Form - {subject}",
-        sender=app.config["MAIL_USERNAME"],
-        recipients=["zanzavatsanstha@gmail.com"]
-    )
+  msg = Message(
+    subject=f"New Contact Form - {subject}",
+    sender=app.config["MAIL_USERNAME"],
+    recipients=["zanzavatsanstha@gmail.com"]
+  )
 
-    msg.html = f"""
+  msg.html = f"""
 <!DOCTYPE html>
 <html>
 <body style="margin:0;padding:30px;background:#f4f4f4;font-family:Arial,sans-serif;">
@@ -195,7 +195,7 @@ style="background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 5px 15
 <tr>
 <td style="background:#B71C1C;padding:25px;text-align:center;color:white;">
 <h2 style="margin:0;">Zanzavat Bahuudeshiya Shaikshanik Sanstha</h2>
-<p style="margin:8px 0 0;">Empowering Since 1995</p>
+<p style="margin:8px 0 0;">Empowering Since</p>
 </td>
 </tr>
 
@@ -241,22 +241,22 @@ This email was automatically generated from the Zanzavat Sanstha website.
 </body>
 </html>
 """
-    mail.send(msg)
+  mail.send(msg)
 
 
 def send_registration_email(name, email, phone, interest, message):
-    """Sends a notification email for new volunteer registrations."""
-    if not app.config.get("MAIL_USERNAME") or not app.config.get("MAIL_PASSWORD"):
-        print("[INFO] Mail credentials not set; skipping volunteer notification email.")
-        return
+  """Sends a notification email for new volunteer registrations."""
+  if not app.config.get("MAIL_USERNAME") or not app.config.get("MAIL_PASSWORD"):
+    print("[INFO] Mail credentials not set; skipping volunteer notification email.")
+    return
 
-    msg = Message(
-        subject=f"New Volunteer Registration - {name}",
-        sender=app.config["MAIL_USERNAME"],
-        recipients=["chakolevidhitam@gmail.com"]
-    )
+  msg = Message(
+    subject=f"New Volunteer Registration - {name}",
+    sender=app.config["MAIL_USERNAME"],
+    recipients=["chakolevidhitam@gmail.com"]
+  )
 
-    msg.body = f"""
+  msg.body = f"""
 New Volunteer Registration
 
 Full Name:
@@ -274,189 +274,184 @@ Area of Interest:
 Motivation:
 {message}
 """
-    mail.send(msg)
+  mail.send(msg)
 
 
 @app.route('/')
 def serve_index():
-    """Serves the home page for local execution."""
-    return send_from_directory('.', 'index.html')
+  """Serves the home page for local execution."""
+  return send_from_directory('.', 'index.html')
 
 
 @app.route('/about')
 def serve_about():
-    return send_from_directory('.', 'about.html')
+  return send_from_directory('.', 'about.html')
 
 
 @app.route('/impact')
 def serve_impact():
-    return send_from_directory('.', 'impact.html')
-
-
-@app.route('/programs')
-def serve_programs():
-    return send_from_directory('.', 'programs.html')
+  return send_from_directory('.', 'impact.html')
 
 
 @app.route('/events')
 def serve_events():
-    return send_from_directory('.', 'events.html')
+  return send_from_directory('.', 'events.html')
 
 
 @app.route('/join')
 def serve_join():
-    return send_from_directory('.', 'join.html')
+  return send_from_directory('.', 'join.html')
 
 
 @app.route('/donate')
 def serve_donate():
-    return send_from_directory('.', 'donate.html')
+  return send_from_directory('.', 'donate.html')
 
 
 @app.route('/contact')
 def serve_contact():
-    return send_from_directory('.', 'contact.html')
+  return send_from_directory('.', 'contact.html')
 
 
 @app.route('/assets/<path:filename>')
 def serve_assets(filename):
-    """Serves browser-facing assets from the public assets directory."""
-    return send_from_directory(os.path.join('public', 'assets'), filename)
+  """Serves browser-facing assets from the public assets directory."""
+  return send_from_directory(os.path.join('public', 'assets'), filename)
 
 
 @app.route('/api/register', methods=['POST'])
 def register_volunteer():
-    """Handles volunteer registration form requests, saving to Supabase (or local fallback)."""
+  """Handles volunteer registration form requests, saving to Supabase (or local fallback)."""
+  try:
+    data = request.json or {}
+    name = data.get('name', '').strip()
+    email = data.get('email', '').strip()
+    phone = data.get('phone', '').strip()
+    interest = data.get('interest', '').strip()
+    message = data.get('message', '').strip()
+
+    if not all([name, email, phone, interest, message]):
+      return jsonify({"status": "error", "message": "All fields are required."}), 400
+
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    record = {
+      "name": name,
+      "email": email,
+      "phone": phone,
+      "interest": interest,
+      "message": message,
+      "timestamp": timestamp
+    }
+
+    insert_registration(record)
+
     try:
-        data = request.json or {}
-        name = data.get('name', '').strip()
-        email = data.get('email', '').strip()
-        phone = data.get('phone', '').strip()
-        interest = data.get('interest', '').strip()
-        message = data.get('message', '').strip()
+      send_registration_email(name, email, phone, interest, message)
+    except Exception as mail_err:
+      print(f"[WARNING] Volunteer registration notification email failed: {mail_err}")
 
-        if not all([name, email, phone, interest, message]):
-            return jsonify({"status": "error", "message": "All fields are required."}), 400
-
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        record = {
-            "name": name,
-            "email": email,
-            "phone": phone,
-            "interest": interest,
-            "message": message,
-            "timestamp": timestamp
-        }
-
-        insert_registration(record)
-
-        try:
-            send_registration_email(name, email, phone, interest, message)
-        except Exception as mail_err:
-            print(f"[WARNING] Volunteer registration notification email failed: {mail_err}")
-
-        return jsonify({"status": "success", "message": "Volunteer registered successfully!"})
-    except Exception as e:
-        traceback.print_exc()
-        return jsonify({"status": "error", "message": str(e)}), 500
+    return jsonify({"status": "success", "message": "Volunteer registered successfully!"})
+  except Exception as e:
+    traceback.print_exc()
+    return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/contact', methods=['POST'])
 def contact_message():
-    """Handles general contact form inquiries, saving to Supabase (or local fallback)."""
+  """Handles general contact form inquiries, saving to Supabase (or local fallback)."""
+  try:
+    data = request.json or {}
+    name = data.get('name', '').strip()
+    email = data.get('email', '').strip()
+    phone = data.get('phone', '').strip()
+    subject = data.get('subject', '').strip()
+    message = data.get('message', '').strip()
+
+    if not all([name, email, phone, subject, message]):
+      return jsonify({"status": "error", "message": "All fields are required."}), 400
+
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    record = {
+      "name": name,
+      "email": email,
+      "phone": phone,
+      "subject": subject,
+      "message": message,
+      "timestamp": timestamp
+    }
+
+    insert_contact(record)
+
     try:
-        data = request.json or {}
-        name = data.get('name', '').strip()
-        email = data.get('email', '').strip()
-        phone = data.get('phone', '').strip()
-        subject = data.get('subject', '').strip()
-        message = data.get('message', '').strip()
+      send_contact_email(name, email, phone, subject, message)
+    except Exception as mail_err:
+      print(f"[WARNING] Contact form notification email failed: {mail_err}")
 
-        if not all([name, email, phone, subject, message]):
-            return jsonify({"status": "error", "message": "All fields are required."}), 400
-
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        record = {
-            "name": name,
-            "email": email,
-            "phone": phone,
-            "subject": subject,
-            "message": message,
-            "timestamp": timestamp
-        }
-
-        insert_contact(record)
-
-        try:
-            send_contact_email(name, email, phone, subject, message)
-        except Exception as mail_err:
-            print(f"[WARNING] Contact form notification email failed: {mail_err}")
-
-        return jsonify({"status": "success", "message": "Message saved successfully!"})
-    except Exception as e:
-        traceback.print_exc()
-        return jsonify({"status": "error", "message": str(e)}), 500
+    return jsonify({"status": "success", "message": "Message saved successfully!"})
+  except Exception as e:
+    traceback.print_exc()
+    return jsonify({"status": "error", "message": str(e)}), 500
 
 
 @app.route('/api/chat', methods=['POST'])
 def ai_chat():
-    """Forwards chat requests to Groq's OpenAI-compatible API."""
-    message = (request.json or {}).get('message', '').strip()
-    ai_url = os.getenv('GROQ_API_URL', 'https://api.groq.com/openai/v1/chat/completions')
-    ai_key = os.getenv('GROQ_API_KEY') or os.getenv('NGROK_API_KEY')
+  """Forwards chat requests to Groq's OpenAI-compatible API."""
+  message = (request.json or {}).get('message', '').strip()
+  ai_url = os.getenv('GROQ_API_URL', 'https://api.groq.com/openai/v1/chat/completions')
+  ai_key = os.getenv('GROQ_API_KEY') or os.getenv('NGROK_API_KEY')
 
-    if not message:
-        return jsonify({"status": "error", "message": "Please enter a message."}), 400
-    if not ai_key:
-        return jsonify({"status": "error", "message": "AI assistant is not configured yet."}), 503
+  if not message:
+    return jsonify({"status": "error", "message": "Please enter a message."}), 400
+  if not ai_key:
+    return jsonify({"status": "error", "message": "AI assistant is not configured yet."}), 503
 
-    try:
-        headers = {"Content-Type": "application/json"}
-        if ai_key:
-            headers["Authorization"] = f"Bearer {ai_key}"
+  try:
+    headers = {"Content-Type": "application/json"}
+    if ai_key:
+      headers["Authorization"] = f"Bearer {ai_key}"
 
-        response = requests.post(
-            ai_url,
-            headers=headers,
-            json={
-                "model": os.getenv("GROQ_MODEL", "openai/gpt-oss-20b"),
-                "messages": [{"role": "user", "content": message}],
-            },
-            timeout=45,
-        )
-        response.raise_for_status()
-        result = response.json()
-        reply = result.get("choices", [{}])[0].get("message", {}).get("content")
-        reply = reply or result.get("reply") or result.get("response")
+    response = requests.post(
+      ai_url,
+      headers=headers,
+      json={
+        "model": os.getenv("GROQ_MODEL", "openai/gpt-oss-20b"),
+        "messages": [{"role": "user", "content": message}],
+      },
+      timeout=45,
+    )
+    response.raise_for_status()
+    result = response.json()
+    reply = result.get("choices", [{}])[0].get("message", {}).get("content")
+    reply = reply or result.get("reply") or result.get("response")
 
-        if not reply:
-            return jsonify({"status": "error", "message": "The AI returned an empty response."}), 502
-        return jsonify({"status": "success", "reply": reply})
-    except requests.RequestException as error:
-        print(f"[WARNING] AI request failed: {error}")
-        return jsonify({"status": "error", "message": "The assistant is unavailable right now."}), 502
-    except (KeyError, IndexError, TypeError, ValueError):
-        return jsonify({"status": "error", "message": "The AI returned an invalid response."}), 502
+    if not reply:
+      return jsonify({"status": "error", "message": "The AI returned an empty response."}), 502
+    return jsonify({"status": "success", "reply": reply})
+  except requests.RequestException as error:
+    print(f"[WARNING] AI request failed: {error}")
+    return jsonify({"status": "error", "message": "The assistant is unavailable right now."}), 502
+  except (KeyError, IndexError, TypeError, ValueError):
+    return jsonify({"status": "error", "message": "The AI returned an invalid response."}), 502
 
 
 @app.route('/<path:filename>')
 def serve_static(filename):
-    """Serves static files and resource directories, blocking access to sensitive config files."""
-    basename = os.path.basename(filename)
-    if filename.startswith('.') or basename in PROTECTED_FILES:
-        return jsonify({"error": "Access denied"}), 403
-    return send_from_directory('.', filename)
+  """Serves static files and resource directories, blocking access to sensitive config files."""
+  basename = os.path.basename(filename)
+  if filename.startswith('.') or basename in PROTECTED_FILES:
+    return jsonify({"error": "Access denied"}), 403
+  return send_from_directory('.', filename)
 
 
 # Initialize Supabase client on startup
 init_supabase()
 
 if __name__ == '__main__':
-    print("=========================================================")
-    print(" Zanzavat Bahuudeshiya Shaikshanik Sanstha - Backend Server")
-    print(" Established 1995. Now serving Nagpur, Maharashtra, India.")
-    print(" Running locally on http://127.0.0.1:5000")
-    print("=========================================================")
-    app.run(debug=True, port=5000)
+  print("=========================================================")
+  print(" Zanzavat Bahuudeshiya Shaikshanik Sanstha - Backend Server")
+  print(" Established. Now serving Nagpur, Maharashtra, India.")
+  print(" Running locally on http://127.0.0.1:5000")
+  print("=========================================================")
+  app.run(debug=True, port=5000)

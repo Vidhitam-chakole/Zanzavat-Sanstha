@@ -1,4 +1,4 @@
-# Zanzavat NGO Image Management System
+﻿# Zanzavat NGO Image Management System
 
 This folder structure contains all the static assets for the Zanzavat Bahuudeshiya Shaikshanik Sanstha website. To update images on the site, simply upload the new images into their corresponding directories using the naming and sizing guidelines below.
 
@@ -18,7 +18,7 @@ This folder structure contains all the static assets for the Zanzavat Bahuudeshi
 | `/clothing-drives` | Distribution of warm clothes, blankets, and school uniforms | `800x600px` |
 | `/student-welfare` | General student and child welfare programs and workshops | `800x600px` |
 | `/volunteers` | Photos of volunteers, group sessions, and community events | `800x600px` |
-| `/leadership` | Executive profile pictures (Ajinkya Bhakre, Arya Sontake) | `600x600px` (Square profile format) |
+| `/leadership` | Executive profile pictures (Ajinkya Bhakre, Aryaki Sontakke) | `600x600px` (Square profile format) |
 | `/gallery` | Masonry layout pictures and spotlight scroll images | `1200x800px` (High resolution) |
 | `/events` | Specific folder for covers and inline details of various events | `1000x600px` |
 | `/events/event-template` | Reference images for custom, newly-added events | `1000x600px` |

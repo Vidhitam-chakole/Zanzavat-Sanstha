@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,7 +22,6 @@
 
     <div>
      <span class="logo-text">Zanzavat Sanstha</span>
-    <span class="logo-subtitle">Empowering</span>
     </div>
    </a>
 
@@ -46,6 +45,31 @@
   </div>
  </header>
 
+  <button class="ai-chat-launcher" id="ai-chat-launcher" type="button" aria-label="Open AI assistant"
+    aria-controls="ai-chat-panel" aria-expanded="false">
+    <span class="ai-chat-launcher-icon" aria-hidden="true">✦</span>
+    <span>Ask Zanzavat AI</span>
+  </button>
+
+  <aside class="ai-chat-panel" id="ai-chat-panel" aria-label="Zanzavat AI assistant" aria-hidden="true">
+    <div class="ai-chat-header">
+      <div>
+        <span class="ai-chat-eyebrow">Zanzavat Assistant</span>
+        <h2>How can we help?</h2>
+      </div>
+      <button class="ai-chat-close" id="ai-chat-close" type="button" aria-label="Close AI assistant">&times;</button>
+    </div>
+    <div class="ai-chat-messages" id="ai-chat-messages" aria-live="polite">
+      <div class="ai-chat-message ai-chat-message-assistant">Hello! Ask me about our programs, volunteering, donations,
+        or upcoming events.</div>
+    </div>
+    <form class="ai-chat-form" id="ai-chat-form">
+      <label class="sr-only" for="ai-chat-input">Message</label>
+      <textarea id="ai-chat-input" rows="1" placeholder="Ask a question..." required></textarea>
+      <button class="ai-chat-send" type="submit" aria-label="Send message">Send</button>
+    </form>
+  </aside>
+
  <!-- Inner Page Banner -->
  <section class="image-overlay"
   style="background-image: url('/assets/images/donations/donate-banner.webp'), url('/assets/images/hero/hero-3.webp'); background-size: cover; background-position: center; padding: 120px 0 80px 0; color: var(--color-white); text-align: center;">
@@ -66,7 +90,7 @@
     <!-- Storytelling / Trust Column -->
     <div class="donate-story">
      <span class="section-tag">How Your Support Helps</span>
-     <h2 style="font-family: var(--font-serif); margin-bottom: 20px;">Your Compassion Empowers Families</h2>
+     <h2 style="font-family: var(--font-serif); margin-bottom: 20px;">Your Compassion Supports Families</h2>
      <p>Every contribution to Zanzavat Bahuudeshiya Shaikshanik Sanstha has a direct effect. Because we are a
       registered society operating with volunteers, we keep our operational expenses low, ensuring that your funds
       are directed directly to purchasing program resources.</p>

@@ -1,4 +1,4 @@
-﻿import csv
+import csv
 import json
 import os
 import tempfile
@@ -195,7 +195,7 @@ style="background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 5px 15
 <tr>
 <td style="background:#B71C1C;padding:25px;text-align:center;color:white;">
 <h2 style="margin:0;">Zanzavat Bahuudeshiya Shaikshanik Sanstha</h2>
-<p style="margin:8px 0 0;">Empowering Since</p>
+<p style="margin:8px 0 0;">Nagpur, Maharashtra, India</p>
 </td>
 </tr>
 
@@ -277,6 +277,15 @@ Motivation:
   mail.send(msg)
 
 
+@app.after_request
+def add_cors_headers(response):
+  """Appends CORS headers for seamless frontend-backend communication."""
+  response.headers["Access-Control-Allow-Origin"] = "*"
+  response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, PUT, DELETE"
+  response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+  return response
+
+
 @app.route('/')
 def serve_index():
   """Serves the home page for local execution."""
@@ -319,19 +328,22 @@ def serve_assets(filename):
   return send_from_directory(os.path.join('public', 'assets'), filename)
 
 
-@app.route('/api/register', methods=['POST'])
+@app.route('/api/register', methods=['POST', 'OPTIONS'])
 def register_volunteer():
   """Handles volunteer registration form requests, saving to Supabase (or local fallback)."""
+  if request.method == 'OPTIONS':
+    return jsonify({"status": "ok"}), 200
+
   try:
     data = request.json or {}
     name = data.get('name', '').strip()
     email = data.get('email', '').strip()
     phone = data.get('phone', '').strip()
     interest = data.get('interest', '').strip()
-    message = data.get('message', '').strip()
+    message = data.get('message', '').strip() or 'General Registration'
 
-    if not all([name, email, phone, interest, message]):
-      return jsonify({"status": "error", "message": "All fields are required."}), 400
+    if not all([name, email, phone, interest]):
+      return jsonify({"status": "error", "message": "Name, email, phone, and area of interest are required."}), 400
 
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -357,9 +369,12 @@ def register_volunteer():
     return jsonify({"status": "error", "message": str(e)}), 500
 
 
-@app.route('/api/contact', methods=['POST'])
+@app.route('/api/contact', methods=['POST', 'OPTIONS'])
 def contact_message():
   """Handles general contact form inquiries, saving to Supabase (or local fallback)."""
+  if request.method == 'OPTIONS':
+    return jsonify({"status": "ok"}), 200
+
   try:
     data = request.json or {}
     name = data.get('name', '').strip()
@@ -395,12 +410,39 @@ def contact_message():
     return jsonify({"status": "error", "message": str(e)}), 500
 
 
-@app.route('/api/chat', methods=['POST'])
+AI_SYSTEM_PROMPT = """You are the official, helpful AI assistant for Zanzavat Bahuudeshiya Shaikshanik Sanstha, a registered NGO based in Nagpur, Maharashtra, India.
+
+Key Organization Details:
+- Name: Zanzavat Bahuudeshiya Shaikshanik Sanstha
+- Mission: Uplifting children, families, and rural communities through grassroots educational support, free healthcare checkup camps, and community welfare drives.
+- Core Programs:
+  1. Educating India For India: Grassroots educational drives in slum and rural communities, providing school stationery kits, notebooks, and learning support.
+  2. Wellness for Every Indian: Free primary health & eye checkups, distribution of essential medicines, and doctor consultations.
+  3. Relief & Distribution Drives: Seasonal clothes, winter blankets, and food ration distribution.
+  4. Checkmate Championship: Annual fundraising chess championship across Vidarbha promoting strategic thinking and youth engagement.
+- Contact Information:
+  - Location: Nagpur, Maharashtra, India
+  - Phone: +91 93225 52882
+  - Email: zanzavatsanstha@gmail.com
+  - Instagram: @zanzavat_sanstha
+- Getting Involved: Visitors can donate online via the Donate page, register as volunteers via the Join Us page, or get in touch via the Contact Us form.
+
+Guidelines:
+- Always be polite, encouraging, empathetic, and concise.
+- Answer directly and accurately based on the organization's mission.
+- Reply in the language used by the user (English, Hindi, Marathi, etc.)."""
+
+
+@app.route('/api/chat', methods=['POST', 'OPTIONS'])
 def ai_chat():
-  """Forwards chat requests to Groq's OpenAI-compatible API."""
+  """Forwards chat requests to Groq's OpenAI-compatible API with organizational context."""
+  if request.method == 'OPTIONS':
+    return jsonify({"status": "ok"}), 200
+
   message = (request.json or {}).get('message', '').strip()
   ai_url = os.getenv('GROQ_API_URL', 'https://api.groq.com/openai/v1/chat/completions')
   ai_key = os.getenv('GROQ_API_KEY') or os.getenv('NGROK_API_KEY')
+  model_name = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
 
   if not message:
     return jsonify({"status": "error", "message": "Please enter a message."}), 400
@@ -408,32 +450,53 @@ def ai_chat():
     return jsonify({"status": "error", "message": "AI assistant is not configured yet."}), 503
 
   try:
-    headers = {"Content-Type": "application/json"}
-    if ai_key:
-      headers["Authorization"] = f"Bearer {ai_key}"
+    headers = {
+      "Content-Type": "application/json",
+      "Authorization": f"Bearer {ai_key}"
+    }
+
+    payload = {
+      "model": model_name,
+      "messages": [
+        {"role": "system", "content": AI_SYSTEM_PROMPT},
+        {"role": "user", "content": message}
+      ],
+      "temperature": 0.7,
+      "max_tokens": 600
+    }
 
     response = requests.post(
       ai_url,
       headers=headers,
-      json={
-        "model": os.getenv("GROQ_MODEL", "openai/gpt-oss-20b"),
-        "messages": [{"role": "user", "content": message}],
-      },
-      timeout=45,
+      json=payload,
+      timeout=30,
     )
-    response.raise_for_status()
+
+    if not response.ok:
+      print(f"[WARNING] Groq API returned status {response.status_code}: {response.text}")
+      return jsonify({"status": "error", "message": "The assistant is temporarily busy. Please try again shortly."}), 502
+
     result = response.json()
-    reply = result.get("choices", [{}])[0].get("message", {}).get("content")
-    reply = reply or result.get("reply") or result.get("response")
+    reply = ""
+    choices = result.get("choices")
+    if choices and isinstance(choices, list) and len(choices) > 0:
+      reply = choices[0].get("message", {}).get("content", "").strip()
 
     if not reply:
-      return jsonify({"status": "error", "message": "The AI returned an empty response."}), 502
+      reply = result.get("reply") or result.get("response") or ""
+
+    if not reply:
+      return jsonify({"status": "error", "message": "The AI returned an empty response. Please ask another question."}), 502
+
     return jsonify({"status": "success", "reply": reply})
+  except requests.Timeout:
+    return jsonify({"status": "error", "message": "AI request timed out. Please try again."}), 504
   except requests.RequestException as error:
     print(f"[WARNING] AI request failed: {error}")
     return jsonify({"status": "error", "message": "The assistant is unavailable right now."}), 502
-  except (KeyError, IndexError, TypeError, ValueError):
-    return jsonify({"status": "error", "message": "The AI returned an invalid response."}), 502
+  except Exception as err:
+    print(f"[ERROR] Unexpected AI chat error: {err}")
+    return jsonify({"status": "error", "message": "An unexpected error occurred. Please try again later."}), 500
 
 
 @app.route('/<path:filename>')

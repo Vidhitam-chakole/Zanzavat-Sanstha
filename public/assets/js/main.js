@@ -219,45 +219,71 @@
      */
     initFormSubmissions() {
       const forms = document.querySelectorAll('.vol-form, .contact-form');
+      const getApiBase = () => {
+        // If loaded from Live Server (e.g. port 5500, 3000, etc.) and backend runs on 5000
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          if (window.location.port && window.location.port !== '5000') {
+            return 'http://127.0.0.1:5000';
+          }
+        }
+        return '';
+      };
+
       forms.forEach(form => {
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
           
           const submitBtn = form.querySelector('button[type="submit"]');
-          const feedback = document.querySelector('.form-feedback');
+          const feedback = form.parentElement.querySelector('.form-feedback') || form.querySelector('.form-feedback') || document.querySelector('.form-feedback');
           
-          if (!submitBtn || !feedback) return;
+          if (!submitBtn) return;
           
-          const originalText = submitBtn.textContent;
-          submitBtn.disabled = true;
-          submitBtn.textContent = 'Submitting...';
-          
-          // Determine endpoint based on form class
           const isVolunteerForm = form.classList.contains('vol-form');
           const endpoint = isVolunteerForm ? '/api/register' : '/api/contact';
+          const apiUrl = `${getApiBase()}${endpoint}`;
+
+          const originalText = submitBtn.textContent;
+          submitBtn.disabled = true;
+          submitBtn.textContent = isVolunteerForm ? 'Submitting Registration...' : 'Sending Message...';
+          
+          if (feedback) {
+            feedback.style.display = 'none';
+          }
           
           // Build JSON payload
           let payload = {};
           if (isVolunteerForm) {
+            const nameEl = form.querySelector('#full-name');
+            const emailEl = form.querySelector('#email');
+            const phoneEl = form.querySelector('#phone');
+            const interestEl = form.querySelector('#interest');
+            const messageEl = form.querySelector('#message');
+
             payload = {
-              name: form.querySelector('#full-name').value,
-              email: form.querySelector('#email').value,
-              phone: form.querySelector('#phone').value,
-              interest: form.querySelector('#interest').value,
-              message: form.querySelector('#message').value
+              name: nameEl ? nameEl.value.trim() : '',
+              email: emailEl ? emailEl.value.trim() : '',
+              phone: phoneEl ? phoneEl.value.trim() : '',
+              interest: interestEl ? interestEl.value.trim() : '',
+              message: messageEl ? messageEl.value.trim() : ''
             };
           } else {
+            const nameEl = form.querySelector('#c-name');
+            const emailEl = form.querySelector('#c-email');
+            const phoneEl = form.querySelector('#c-phone');
+            const subjectEl = form.querySelector('#c-subject');
+            const messageEl = form.querySelector('#c-message');
+
             payload = {
-              name: form.querySelector('#c-name').value,
-              email: form.querySelector('#c-email').value,
-              phone: form.querySelector('#c-phone').value,
-              subject: form.querySelector('#c-subject').value,
-              message: form.querySelector('#c-message').value
+              name: nameEl ? nameEl.value.trim() : '',
+              email: emailEl ? emailEl.value.trim() : '',
+              phone: phoneEl ? phoneEl.value.trim() : '',
+              subject: subjectEl ? subjectEl.value.trim() : '',
+              message: messageEl ? messageEl.value.trim() : ''
             };
           }
 
           try {
-            const response = await fetch(endpoint, {
+            const response = await fetch(apiUrl, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -265,37 +291,44 @@
               body: JSON.stringify(payload)
             });
             
-            const result = await response.json();
+            const result = await response.json().catch(() => ({}));
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
 
-            if (response.ok && result.status === 'success') {
+            if (response.ok && (result.status === 'success' || response.status === 200)) {
               form.reset();
-              feedback.textContent = isVolunteerForm 
-                ? '✔ Registration Successful! Thank you for joining Zanzavat. Our Nagpur operations team will contact you shortly.'
-                : '✔ Message Sent! Thank you for contacting Zanzavat Sanstha. We will get back to you shortly.';
-              feedback.style.backgroundColor = 'var(--color-green-light)';
-              feedback.style.color = 'var(--color-green)';
-              feedback.style.borderColor = 'var(--color-green)';
-              feedback.style.display = 'block';
+              if (feedback) {
+                feedback.textContent = isVolunteerForm 
+                  ? '✔ Registration Successful! Thank you for joining Zanzavat. Our Nagpur operations team will contact you shortly.'
+                  : '✔ Message Sent! Thank you for contacting Zanzavat Sanstha. We will get back to you shortly.';
+                feedback.style.backgroundColor = 'var(--color-green-light)';
+                feedback.style.color = 'var(--color-green)';
+                feedback.style.borderColor = 'var(--color-green)';
+                feedback.style.display = 'block';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }
             } else {
-              feedback.textContent = `❌ Error: ${result.message || 'Submission failed.'}`;
-              feedback.style.backgroundColor = '#FFEBEE';
-              feedback.style.color = '#C62828';
-              feedback.style.borderColor = '#C62828';
-              feedback.style.display = 'block';
+              if (feedback) {
+                feedback.textContent = `❌ Error: ${result.message || 'Submission failed. Please check your inputs and try again.'}`;
+                feedback.style.backgroundColor = '#FFEBEE';
+                feedback.style.color = '#C62828';
+                feedback.style.borderColor = '#C62828';
+                feedback.style.display = 'block';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }
             }
           } catch (err) {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
-            feedback.textContent = `❌ Connection Error: Ensure server.py is running.`;
-            feedback.style.backgroundColor = '#FFEBEE';
-            feedback.style.color = '#C62828';
-            feedback.style.borderColor = '#C62828';
-            feedback.style.display = 'block';
+            if (feedback) {
+              feedback.textContent = `❌ Unable to reach server. Please ensure the backend server is running and try again.`;
+              feedback.style.backgroundColor = '#FFEBEE';
+              feedback.style.color = '#C62828';
+              feedback.style.borderColor = '#C62828';
+              feedback.style.display = 'block';
+              feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
           }
-          
-          feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
       });
     }
@@ -310,11 +343,23 @@
 
       if (!launcher || !panel || !closeButton || !form || !input || !messages) return;
 
+      const getApiBase = () => {
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          if (window.location.port && window.location.port !== '5000') {
+            return 'http://127.0.0.1:5000';
+          }
+        }
+        return '';
+      };
+
       const togglePanel = (isOpen) => {
         panel.classList.toggle('is-open', isOpen);
         panel.setAttribute('aria-hidden', String(!isOpen));
         launcher.setAttribute('aria-expanded', String(isOpen));
-        if (isOpen) input.focus();
+        if (isOpen) {
+          input.focus();
+          messages.scrollTop = messages.scrollHeight;
+        }
       };
 
       const addMessage = (text, type) => {
@@ -326,8 +371,12 @@
         return message;
       };
 
-      launcher.addEventListener('click', () => togglePanel(true));
+      launcher.addEventListener('click', () => {
+        const isOpen = panel.classList.contains('is-open');
+        togglePanel(!isOpen);
+      });
       closeButton.addEventListener('click', () => togglePanel(false));
+      
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
           event.preventDefault();
@@ -343,20 +392,30 @@
         addMessage(message, 'user');
         input.value = '';
         input.disabled = true;
+        const sendBtn = form.querySelector('button[type="submit"]');
+        if (sendBtn) sendBtn.disabled = true;
+
         const loadingMessage = addMessage('Thinking...', 'assistant');
 
         try {
-          const response = await fetch('/api/chat', {
+          const chatUrl = `${getApiBase()}/api/chat`;
+          const response = await fetch(chatUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message })
           });
-          const result = await response.json();
-          loadingMessage.textContent = response.ok ? result.reply : (result.message || 'The assistant is unavailable right now.');
+          const result = await response.json().catch(() => ({}));
+          
+          if (response.ok && result.status === 'success' && result.reply) {
+            loadingMessage.textContent = result.reply;
+          } else {
+            loadingMessage.textContent = result.message || 'The assistant is temporarily unavailable. Please try again shortly.';
+          }
         } catch (error) {
-          loadingMessage.textContent = 'The assistant is unavailable right now. Please try again later.';
+          loadingMessage.textContent = 'Unable to connect to the assistant. Please check your internet connection or ensure the server is running.';
         } finally {
           input.disabled = false;
+          if (sendBtn) sendBtn.disabled = false;
           input.focus();
           messages.scrollTop = messages.scrollHeight;
         }

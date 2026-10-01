@@ -30,5 +30,37 @@
     "subject": "Deployment Test",
     "message": "Testing Vercel deployment readiness",
     "timestamp": "2026-09-19 02:04:00"
+  },
+  {
+    "name": "Test User",
+    "email": "test@example.com",
+    "phone": "1234567890",
+    "subject": "Test Subject",
+    "message": "This is a test message",
+    "timestamp": "2026-10-01 16:09:11"
+  },
+  {
+    "name": "Test",
+    "email": "t@t.com",
+    "phone": "1234567890",
+    "subject": "Sub",
+    "message": "Msg",
+    "timestamp": "2026-10-01 16:13:26"
+  },
+  {
+    "name": "vedant thote",
+    "email": "vidhitam@gmail.com",
+    "phone": "7720803992",
+    "subject": "none",
+    "message": "fc",
+    "timestamp": "2026-10-01 16:26:09"
+  },
+  {
+    "name": "vidho",
+    "email": "vidhitam@gmail.com",
+    "phone": "7720803992",
+    "subject": "none",
+    "message": "ugui",
+    "timestamp": "2026-10-01 16:30:22"
   }
 ]

@@ -441,7 +441,7 @@ def ai_chat():
 
   message = (request.json or {}).get('message', '').strip()
   ai_url = os.getenv('GROQ_API_URL', 'https://api.groq.com/openai/v1/chat/completions')
-  ai_key = os.getenv('GROQ_API_KEY') or os.getenv('NGROK_API_KEY')
+  ai_key = os.getenv("GROQ_API_KEY")
   model_name = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
 
   if not message:
@@ -466,11 +466,22 @@ def ai_chat():
     }
 
     response = requests.post(
-      ai_url,
-      headers=headers,
-      json=payload,
-      timeout=30,
-    )
+      "https://api.groq.com/openai/v1/chat/completions",
+      headers={
+          "Authorization": f"Bearer {os.getenv('GROQ_API_KEY')}",
+          "Content-Type": "application/json"
+      },
+      json={
+          "model": "openai/gpt-oss-20b",
+          "messages": [
+              {"role": "system", "content": AI_SYSTEM_PROMPT},
+              {"role": "user", "content": message}
+          ],
+          "temperature": 0.7,
+          "max_tokens": 600
+      },
+      timeout=60
+  )
 
     if not response.ok:
       print(f"[WARNING] Groq API returned status {response.status_code}: {response.text}")

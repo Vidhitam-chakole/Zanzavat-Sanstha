@@ -10,6 +10,7 @@
       this.initScrollReveal();
       this.initStatCounters();
       this.initHeroCarousel();
+      this.initLazyVideos();
       this.initFormSubmissions();
       this.initAIChat();
     }
@@ -91,7 +92,9 @@
       const counters = document.querySelectorAll('.counter-num, .impact-stat-num');
       
       const startCounting = (counter) => {
-        const target = parseInt(counter.getAttribute('data-target'), 10);
+        const rawTarget = counter.getAttribute('data-target');
+        if (!rawTarget || isNaN(parseInt(rawTarget, 10))) return;
+        const target = parseInt(rawTarget, 10);
         const suffix = counter.getAttribute('data-suffix') || '';
         const duration = 2000;
         const startTime = performance.now();
@@ -127,10 +130,39 @@
         observer.observe(counterSection);
       } else {
         counters.forEach(counter => {
-          const target = counter.getAttribute('data-target');
+          const rawTarget = counter.getAttribute('data-target');
+          if (!rawTarget || isNaN(parseInt(rawTarget, 10))) return;
+          const target = parseInt(rawTarget, 10);
           const suffix = counter.getAttribute('data-suffix') || '';
           counter.textContent = target + suffix;
         });
+      }
+    }
+
+    /**
+     * Lazy Video Playback & Performance Optimization
+     */
+    initLazyVideos() {
+      const videos = document.querySelectorAll('.insta-video, video[preload="none"]');
+      if (videos.length === 0) return;
+
+      if ('IntersectionObserver' in window) {
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const video = entry.target;
+            if (entry.isIntersecting) {
+              if (video.paused) {
+                video.play().catch(() => {});
+              }
+            } else {
+              if (!video.paused) {
+                video.pause();
+              }
+            }
+          });
+        }, { threshold: 0.2 });
+
+        videos.forEach(v => videoObserver.observe(v));
       }
     }
 

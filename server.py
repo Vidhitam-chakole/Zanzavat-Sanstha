@@ -525,7 +525,7 @@ init_supabase()
 if __name__ == '__main__':
   print("=========================================================")
   print(" Zanzavat Bahuudeshiya Shaikshanik Sanstha - Backend Server")
-  print(" Established. Now serving Nagpur, Maharashtra, India.")
+  print(" Serving Nagpur, Maharashtra, India.")
   print(" Running locally on http://127.0.0.1:5000")
   print("=========================================================")
   app.run(debug=True, port=5000)

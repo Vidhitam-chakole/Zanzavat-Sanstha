@@ -23,8 +23,7 @@
 ========================================================================
 */
 
-/* 1. Google Fonts Import & Variables */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Yatra+One&display=swap');
+/* 1. CSS Variables */
 :root {
  /* Font Families */
  --font-sans: 'Inter', sans-serif;
@@ -544,8 +543,8 @@ header.site-header.scrolled {
 
 .counter-grid {
  display: grid;
- grid-template-columns: repeat(4, 1fr);
- gap: 20px;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 24px;
  text-align: center;
 }
 
@@ -2120,7 +2119,8 @@ footer.site-footer {
  }
 
  .counter-grid {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
  }
 
  .counter-item:not(:last-child)::after {
@@ -2299,7 +2299,8 @@ footer.site-footer {
  }
 
  .counter-grid {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  gap: 20px;
  }
 
  .counter-num {

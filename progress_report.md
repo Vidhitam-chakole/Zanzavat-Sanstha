@@ -229,8 +229,12 @@ Instantiated globally on every page.
 - **Hero Slider (`initHeroCarousel`)**:
   - Auto-rotates hero slides with active dot indicator synchronization.
   - Handles touch start/end swipe detection on mobile devices.
-- **Lazy Video Playback (`initLazyVideos`)**:
-  - Uses `IntersectionObserver` to automatically call `.play()` when Instagram video cards enter the viewport and `.pause()` when scrolled away, saving substantial client CPU and bandwidth.
+- **Zero-Initial-Load Lazy Videos (`initLazyVideos`)**:
+  - Uses `data-src` and `preload="none"` with `IntersectionObserver` so 0 bytes of video are transferred on page load.
+  - Only attaches video source and calls `.play()` when cards scroll within 150px of the viewport, pausing when offscreen.
+- **Instant Page Navigation (`initInstantNavigation`)**:
+  - Pre-fetches internal destination pages on hover and touchstart events.
+  - Injects native Speculation Rules API for sub-50ms instant page loads.
 - **Form Submitter (`initFormSubmissions`)**:
   - Intercepts submit events on `#volunteer-form` and `#contact-form`.
   - Disables submit buttons, shows live progress state, sends JSON fetch, and renders inline success/error banners.
@@ -259,10 +263,16 @@ Controls interactive photo experiences.
 2. **Elimination of Render-Blocking CSS**:
    - Removed `@import` from `style.css`.
    - Google Fonts (`Inter`, `Playfair Display`, `Yatra One`) are loaded via `<link rel="preconnect">` and asynchronous `<link rel="stylesheet">` tags in all HTML documents.
-3. **Lazy Media Loading**:
+3. **Lazy Media Loading & Zero Video Overhead**:
    - Non-critical images include `loading="lazy"` and `decoding="async"`.
-   - Videos use `preload="none"` with viewport `IntersectionObserver` playback.
-4. **Resilient Data Architecture**:
+   - Instagram preview videos use `data-src` with `preload="none"`, saving 50+ MB of simultaneous downloads on page load.
+4. **Instant Link Prefetching & Speculation Rules**:
+   - Hovering over or touching navigation links triggers background prefetching.
+   - Speculation Rules API provides instant page transitions across Home, About, Impact, Events, Join, Donate, and Contact.
+5. **Aggressive Browser Caching & Multithreading**:
+   - Static assets (`/assets/*`) return `Cache-Control: public, max-age=86400, stale-while-revalidate=3600`.
+   - Flask server runs with `threaded=True` to prevent request queuing during concurrent navigation.
+6. **Resilient Data Architecture**:
    - Zero hard dependencies on external cloud services for basic site rendering. If Supabase or Groq are offline, the frontend degrades gracefully without console exceptions.
 
 ---

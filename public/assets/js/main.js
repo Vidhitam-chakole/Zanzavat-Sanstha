@@ -11,6 +11,7 @@
       this.initStatCounters();
       this.initHeroCarousel();
       this.initLazyVideos();
+      this.initInstantNavigation();
       this.initFormSubmissions();
       this.initAIChat();
     }
@@ -143,7 +144,7 @@
      * Lazy Video Playback & Performance Optimization
      */
     initLazyVideos() {
-      const videos = document.querySelectorAll('.insta-video, video[preload="none"]');
+      const videos = document.querySelectorAll('.insta-video, video[data-src]');
       if (videos.length === 0) return;
 
       if ('IntersectionObserver' in window) {
@@ -151,18 +152,58 @@
           entries.forEach(entry => {
             const video = entry.target;
             if (entry.isIntersecting) {
-              if (video.paused) {
-                video.play().catch(() => {});
+              if (!video.src && video.dataset.src) {
+                video.src = video.dataset.src;
+                video.load();
               }
+              video.play().catch(() => {});
             } else {
               if (!video.paused) {
                 video.pause();
               }
             }
           });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.15, rootMargin: '150px 0px' });
 
         videos.forEach(v => videoObserver.observe(v));
+      }
+    }
+
+    /**
+     * Instant Page Navigation via Link Prefetching
+     */
+    initInstantNavigation() {
+      const prefetched = new Set();
+      const prefetch = (url) => {
+        if (!url || prefetched.has(url) || url.startsWith('http') || url.startsWith('#') || url.startsWith('tel:') || url.startsWith('mailto:')) return;
+        prefetched.add(url);
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = url;
+        link.as = 'document';
+        document.head.appendChild(link);
+      };
+
+      document.querySelectorAll('a[href]').forEach(anchor => {
+        const href = anchor.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('tel:') || href.startsWith('mailto:')) return;
+        
+        anchor.addEventListener('mouseenter', () => prefetch(href), { passive: true });
+        anchor.addEventListener('touchstart', () => prefetch(href), { passive: true });
+      });
+
+      if (HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules')) {
+        const specScript = document.createElement('script');
+        specScript.type = 'speculationrules';
+        specScript.textContent = JSON.stringify({
+          prerender: [{
+            where: {
+              href_matches: "/*\\.html"
+            },
+            eagerness: "moderate"
+          }]
+        });
+        document.head.appendChild(specScript);
       }
     }
 

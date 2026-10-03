@@ -519,6 +519,16 @@ def serve_static(filename):
   return send_from_directory('.', filename)
 
 
+@app.after_request
+def add_cache_headers(response):
+  """Adds aggressive client caching for static media and efficient revalidation for pages."""
+  if request.path.startswith('/assets/'):
+    response.headers['Cache-Control'] = 'public, max-age=86400, stale-while-revalidate=3600'
+  elif any(request.path.endswith(ext) for ext in ('.html', '.json')) or request.path in ('/', '/about', '/impact', '/events', '/join', '/donate', '/contact'):
+    response.headers['Cache-Control'] = 'public, max-age=300, stale-while-revalidate=60'
+  return response
+
+
 # Initialize Supabase client on startup
 init_supabase()
 
@@ -528,4 +538,5 @@ if __name__ == '__main__':
   print(" Serving Nagpur, Maharashtra, India.")
   print(" Running locally on http://127.0.0.1:5000")
   print("=========================================================")
-  app.run(debug=True, port=5000)
+  app.run(debug=True, port=5000, threaded=True)
+

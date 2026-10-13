@@ -167,7 +167,7 @@ class EventsRouter {
         const item = document.createElement('div');
         item.className = 'event-detail-gallery-item';
         item.innerHTML = `
-          <img src="${imgUrl}" alt="Event photo" onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
+          <img src="${imgUrl}" alt="${event.title} - Zanzavat Sanstha Event Gallery" onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
         `;
         item.addEventListener('click', () => {
           if (typeof openLightbox === 'function') {

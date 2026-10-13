@@ -1,36 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
+    <!-- Home Page -->
     <url>
         <loc>https://www.zanzavatsanstha.in/</loc>
+        <lastmod>2026-10-13</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://www.zanzavatsanstha.in/assets/images/zanzavat-logo/zanzavat_logo.png</image:loc>
+            <image:title>Zanzavat Bahuudeshiya Shaikshanik Sanstha Official Logo</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://www.zanzavatsanstha.in/assets/images/hero/hero-1.webp</image:loc>
+            <image:title>Rural Education Support Drive in Nagpur</image:title>
+        </image:image>
     </url>
 
+    <!-- About Us Page -->
     <url>
         <loc>https://www.zanzavatsanstha.in/about</loc>
+        <lastmod>2026-10-13</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://www.zanzavatsanstha.in/assets/images/about/about-main.webp</image:loc>
+            <image:title>Zanzavat Sanstha History and Mission</image:title>
+        </image:image>
     </url>
 
+    <!-- Our Impact Page -->
     <url>
         <loc>https://www.zanzavatsanstha.in/impact</loc>
+        <lastmod>2026-10-13</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://www.zanzavatsanstha.in/assets/images/impact/story-1.webp</image:loc>
+            <image:title>Beneficiary Student Success Story</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://www.zanzavatsanstha.in/assets/images/impact/story-2.webp</image:loc>
+            <image:title>Free Healthcare Camp Senior Citizen Beneficiary</image:title>
+        </image:image>
     </url>
 
-    <url>
-        <loc>https://www.zanzavatsanstha.in/programs</loc>
-    </url>
-
+    <!-- Events & Campaigns Page -->
     <url>
         <loc>https://www.zanzavatsanstha.in/events</loc>
+        <lastmod>2026-10-13</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <image:image>
+            <image:loc>https://www.zanzavatsanstha.in/assets/images/education-support/edu-card.webp</image:loc>
+            <image:title>Annual School Kit Distribution Drive</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://www.zanzavatsanstha.in/assets/images/medical-camps/med-card.webp</image:loc>
+            <image:title>Winter Medical Checkup Camp Nagpur</image:title>
+        </image:image>
     </url>
 
+    <!-- Join Us / Volunteer Page -->
     <url>
         <loc>https://www.zanzavatsanstha.in/join</loc>
+        <lastmod>2026-10-13</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
 
+    <!-- Donate Page -->
     <url>
         <loc>https://www.zanzavatsanstha.in/donate</loc>
+        <lastmod>2026-10-13</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
     </url>
 
+    <!-- Contact Us Page -->
     <url>
         <loc>https://www.zanzavatsanstha.in/contact</loc>
+        <lastmod>2026-10-13</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
 
 </urlset>

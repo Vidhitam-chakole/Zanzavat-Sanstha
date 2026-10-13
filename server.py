@@ -4,7 +4,7 @@ import os
 import tempfile
 import traceback
 from datetime import datetime
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, redirect
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
 from supabase import create_client
@@ -320,6 +320,31 @@ def serve_donate():
 @app.route('/contact')
 def serve_contact():
   return send_from_directory('.', 'contact.html')
+
+
+@app.route('/robots.txt')
+def serve_robots():
+  return send_from_directory('public', 'robots.txt')
+
+
+@app.route('/sitemap.xml')
+def serve_sitemap():
+  return send_from_directory('public', 'sitemap.xml', mimetype='application/xml')
+
+
+@app.route('/llms.txt')
+def serve_llms():
+  return send_from_directory('public', 'llms.txt', mimetype='text/plain')
+
+
+@app.route('/llms-full.txt')
+def serve_llms_full():
+  return send_from_directory('public', 'llms-full.txt', mimetype='text/plain')
+
+
+@app.route('/programs')
+def serve_programs():
+  return redirect('/#programs', code=301)
 
 
 @app.route('/assets/<path:filename>')

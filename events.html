@@ -217,138 +217,178 @@
   </aside>
 
  <!-- Dynamic Section Wrapper -->
- <section class="events-section-wrapper" style="padding-top: 120px;">
-  <div class="container">
-   
-   <!-- 1. EVENTS LIST VIEW -->
-   <div id="events-list-section">
-    <div class="section-header">
-     <span class="section-tag">Our History of Action</span>
-     <h2>Campaigns & Ground Events</h2>
-     <p>We believe in action (सेवा) that creates tangible results. View our recent distribution drives, free camps, and community engagement updates.</p>
-    </div>
+  <!-- Static Events Section -->
+  <section class="events-section-wrapper" style="padding-top: 120px; padding-bottom: 80px;">
+   <div class="container">
     
-    <!-- Grid dynamically populated by events.js -->
-    <div class="card-grid" id="events-grid">
-     <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-text-muted);">
-      <h3>Loading events...</h3>
-     </div>
-    </div>
-   </div>
-
-   <!-- 2. INDIVIDUAL EVENT DETAILS VIEW (Initially Hidden) -->
-   <div id="events-detail-section" class="event-detail-container">
-    <!-- Back Navigation -->
-    <div class="event-detail-back">
-     <span>&larr;</span> Back to All Events
-    </div>
-    
-    <!-- Hero Details (BG, date, title loaded by JS) -->
-    <div class="event-detail-hero">
-     <div class="event-detail-hero-content">
-      <!-- Dynamic title and details -->
-     </div>
-    </div>
-    
-    <!-- Layout Split -->
-    <div class="event-detail-layout">
-     <!-- Main description -->
-     <div class="event-detail-main">
-      <!-- Loaded dynamically by events.js -->
+    <div id="events-list-section">
+     <div class="section-header">
+      <span class="section-tag">Our History of Action</span>
+      <h2>Campaigns & Ground Events</h2>
+      <p>We believe in action (सेवा) that creates tangible results. View our recent distribution drives, free camps, and community engagement updates.</p>
      </div>
      
-     <!-- Sidebar details and statistics -->
-     <div class="event-detail-sidebar">
-      <div class="event-detail-sidebar-box event-sidebar-info-box">
-       <!-- Loaded dynamically by events.js -->
+     <!-- Static Event Cards Grid (Directly Editable HTML) -->
+     <div class="card-grid" id="events-grid">
+
+      <!-- Event 1: Annual School Kit Distribution Drive -->
+      <div class="card reveal active">
+       <div class="card-img-wrapper">
+        <img src="/assets/images/education-support/edu-card.webp" alt="Annual School Kit Distribution Drive" onerror="this.src='/assets/images/zanzavat-logo/zanzavat_logo.png';">
+       </div>
+       <div class="card-content">
+        <div class="card-meta">
+         <span class="icon">📅</span> June 15, 2026
+        </div>
+        <h3 class="card-title">Annual School Kit Distribution Drive</h3>
+        <p class="card-text">Distributed comprehensive school kits containing bags, notebooks, stationery, and drawing materials to 75+ underprivileged children before the new academic year.</p>
+        <a href="/events/school-kit-drive-2026.html" class="btn btn-primary btn-sm" style="margin-top: auto; align-self: flex-start;">View Details</a>
+       </div>
+      </div>
+
+      <!-- Event 2: Checkmate Championship Chess Tournament -->
+      <div class="card reveal active">
+       <div class="card-img-wrapper">
+        <img src="/assets/images/student-welfare/welfare-focus.webp" alt="Checkmate Championship Chess Tournament" onerror="this.src='/assets/images/zanzavat-logo/zanzavat_logo.png';">
+       </div>
+       <div class="card-content">
+        <div class="card-meta">
+         <span class="icon">📅</span> March 10, 2026
+        </div>
+        <h3 class="card-title">Checkmate Championship Chess Tournament</h3>
+        <p class="card-text">Organized one of Vidarbha's largest annual chess tournaments, bringing together players from across the region to promote strategic thinking and sportsmanship.</p>
+        <a href="/events/checkmate-championship-2026.html" class="btn btn-primary btn-sm" style="margin-top: auto; align-self: flex-start;">View Details</a>
+       </div>
+      </div>
+
+      <!-- Event 3: Winter Blanket & Clothing Distribution -->
+      <div class="card reveal active">
+       <div class="card-img-wrapper">
+        <img src="/assets/images/clothing-drives/clothing-focus.webp" alt="Winter Blanket & Clothing Distribution" onerror="this.src='/assets/images/zanzavat-logo/zanzavat_logo.png';">
+       </div>
+       <div class="card-content">
+        <div class="card-meta">
+         <span class="icon">📅</span> December 28, 2025
+        </div>
+        <h3 class="card-title">Winter Blanket & Clothing Distribution</h3>
+        <p class="card-text">Distributed 100+ warm blankets and winter wear to roadside families during the cold wave in late December.</p>
+        <a href="/events/blanket-drive-dec-2025.html" class="btn btn-primary btn-sm" style="margin-top: auto; align-self: flex-start;">View Details</a>
+       </div>
+      </div>
+
+      <!-- Event 4: Winter Medical Checkup Camp -->
+      <div class="card reveal active">
+       <div class="card-img-wrapper">
+        <img src="/assets/images/medical-camps/med-card.webp" alt="Winter Medical Checkup Camp" onerror="this.src='/assets/images/zanzavat-logo/zanzavat_logo.png';">
+       </div>
+       <div class="card-content">
+        <div class="card-meta">
+         <span class="icon">📅</span> December 20, 2025
+        </div>
+        <h3 class="card-title">Winter Medical Checkup Camp</h3>
+        <p class="card-text">Conducted a free medical checkup camp screening 120+ patients with volunteer doctors, providing prescriptions and free essential medicine kits.</p>
+        <a href="/events/medical-camp-dec-2025.html" class="btn btn-primary btn-sm" style="margin-top: auto; align-self: flex-start;">View Details</a>
+       </div>
+      </div>
+
+      <!-- Event 5: Festival Season Ration Distribution -->
+      <div class="card reveal active">
+       <div class="card-img-wrapper">
+        <img src="/assets/images/food-distribution/food-card.webp" alt="Festival Season Ration Distribution" onerror="this.src='/assets/images/zanzavat-logo/zanzavat_logo.png';">
+       </div>
+       <div class="card-content">
+        <div class="card-meta">
+         <span class="icon">📅</span> October 25, 2025
+        </div>
+        <h3 class="card-title">Festival Season Ration Distribution</h3>
+        <p class="card-text">Distributed dry monthly ration kits containing flour, oil, rice, and lentils to 45 daily wager families during the festive season.</p>
+        <a href="/events/ration-distribution-oct-2025.html" class="btn btn-primary btn-sm" style="margin-top: auto; align-self: flex-start;">View Details</a>
+       </div>
+      </div>
+
+     </div>
+    </div>
+
+   </div>
+  </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+   <div class="container">
+    <div class="footer-grid">
+     <div class="footer-brand">
+      <h3>Zanzavat Bahuudeshiya Shaikshanik Sanstha</h3>
+      <p>We are a registered multi-purpose educational society dedicated to child welfare, health services, and rural development. Bringing positive change (परिवर्तन) to our communities.</p>
+      <div class="footer-social-links">
+       <a href="https://www.instagram.com/zanzavat_sanstha" target="_blank" class="footer-social-btn" aria-label="Instagram">📸</a>
       </div>
      </div>
-    </div>
-
-    <!-- Event Gallery -->
-    <div class="event-detail-gallery">
-     <h3 class="section-tag" style="margin-bottom: 25px;">Event Photos</h3>
-     <div class="event-detail-gallery-grid">
-      <!-- Loaded dynamically by events.js -->
+     
+     <div>
+      <h4 class="footer-links-title">Quick Links</h4>
+      <ul class="footer-links-list">
+       <li><a href="index.html">Home</a></li>
+       <li><a href="about.html">About Us</a></li>
+       <li><a href="impact.html">Our Impact</a></li>
+       <li><a href="events.html">Events & Campaigns</a></li>
+      </ul>
+     </div>
+     
+     <div>
+      <h4 class="footer-links-title">Get Involved</h4>
+      <ul class="footer-links-list">
+       <li><a href="join.html">Become a Volunteer</a></li>
+       <li><a href="donate.html">Donate Funds</a></li>
+       <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+     </div>
+     
+     <div>
+      <h4 class="footer-links-title">Get In Touch</h4>
+      <ul class="footer-links-list">
+       <li class="footer-contact-item">
+        <span class="icon">📍</span>
+        <span>Nagpur, Maharashtra, India</span>
+       </li>
+       <li class="footer-contact-item">
+        <span class="icon">📞</span>
+        <span><a href="tel:+919322552882">+91 93225 52882</a></span>
+       </li>
+       <li class="footer-contact-item">
+        <span class="icon">📧</span>
+        <span><a href="mailto:zanzavatsanstha@gmail.com">zanzavatsanstha@gmail.com</a></span>
+       </li>
+      </ul>
      </div>
     </div>
-   </div>
-
-  </div>
- </section>
- </main>
-
- <!-- Lightbox Modal (Used when clicking event gallery images) -->
- <div class="lightbox-modal">
-  <button class="lightbox-close" aria-label="Close Lightbox">&times;</button>
-  <button class="lightbox-nav lightbox-prev" aria-label="Previous Image">&lsaquo;</button>
-  <div class="lightbox-content-wrapper">
-   <img src="" alt="Zanzavat Sanstha campaign photo preview" class="lightbox-image">
-   <div class="lightbox-caption"></div>
-  </div>
-  <button class="lightbox-nav lightbox-next" aria-label="Next Image">&rsaquo;</button>
- </div>
-
- <!-- Footer Section -->
- <footer class="site-footer">
-  <div class="container">
-   <div class="footer-grid">
-    <div class="footer-brand">
-     <h3>Zanzavat Bahuudeshiya Shaikshanik Sanstha</h3>
-     <p>We are a registered multi-purpose educational society dedicated to child welfare, health services, and rural development. Bringing positive change (परिवर्तन) to our communities.</p>
-     <div class="footer-social-links">
-      <a href="https://www.instagram.com/zanzavat_sanstha" target="_blank" class="footer-social-btn" aria-label="Instagram">📸</a>
-     </div>
-    </div>
     
-    <div>
-     <h4 class="footer-links-title">Quick Links</h4>
-     <ul class="footer-links-list">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="impact.html">Our Impact</a></li>
-      <li><a href="events.html">Events & Campaigns</a></li>
-     </ul>
-    </div>
-    
-    <div>
-     <h4 class="footer-links-title">Get Involved</h4>
-     <ul class="footer-links-list">
-      <li><a href="join.html">Become a Volunteer</a></li>
-      <li><a href="donate.html">Donate Funds</a></li>
-      <li><a href="contact.html">Contact Us</a></li>
-     </ul>
-    </div>
-    
-    <div>
-     <h4 class="footer-links-title">Get In Touch</h4>
-     <ul class="footer-links-list">
-      <li class="footer-contact-item">
-       <span class="icon">📍</span>
-       <span>Nagpur, Maharashtra, India</span>
-      </li>
-      <li class="footer-contact-item">
-       <span class="icon">📞</span>
-       <span><a href="tel:+919322552882">+91 93225 52882</a></span>
-      </li>
-      <li class="footer-contact-item">
-       <span class="icon">📧</span>
-       <span><a href="mailto:zanzavatsanstha@gmail.com">zanzavatsanstha@gmail.com</a></span>
-      </li>
-     </ul>
+    <div class="footer-bottom">
+     <div>&copy; 2026 Zanzavat Bahuudeshiya Shaikshanik Sanstha. All rights reserved.</div>
+     <div style="font-size: 0.8rem;">Registered NGO</div>
     </div>
    </div>
-   
-   <div class="footer-bottom">
-    <div>&copy; 2026 Zanzavat Bahuudeshiya Shaikshanik Sanstha. All rights reserved.</div>
-    <div style="font-size: 0.8rem;">Registered NGO</div>
-   </div>
-  </div>
- </footer>
+  </footer>
 
- <!-- Scripts -->
- <script src="/assets/js/main.js"></script>
- <script src="/assets/js/gallery.js"></script> <!-- Required for Lightbox logic -->
- <script src="/assets/js/events.js"></script>  <!-- Handles Routing and Fetching -->
-</body>
+  <!-- Scripts: Clean & Simple -->
+  <script src="/assets/js/main.js"></script>
+  <script>
+   // Automatic redirect for legacy hash URLs (e.g. #school-kit-drive-2026)
+   (function() {
+     if (window.location.hash) {
+       var hashKey = window.location.hash.replace('#', '');
+       var hashRedirects = {
+         'school-kit-drive-2026': '/events/school-kit-drive-2026.html',
+         'checkmate-championship-2026': '/events/checkmate-championship-2026.html',
+         'blanket-drive-dec-2025': '/events/blanket-drive-dec-2025.html',
+         'medical-camp-dec-2025': '/events/medical-camp-dec-2025.html',
+         'ration-distribution-oct-2025': '/events/ration-distribution-oct-2025.html'
+       };
+       if (hashRedirects[hashKey]) {
+         window.location.replace(hashRedirects[hashKey]);
+       }
+     }
+   })();
+  </script>
+ </body>
 </html>

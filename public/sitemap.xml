@@ -110,6 +110,14 @@
         <priority>0.9</priority>
     </url>
 
+    <!-- Donate Goods (In-Kind) Page -->
+    <url>
+        <loc>https://www.zanzavatsanstha.in/donate-goods</loc>
+        <lastmod>2026-10-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
     <!-- Contact Us Page -->
     <url>
         <loc>https://www.zanzavatsanstha.in/contact</loc>

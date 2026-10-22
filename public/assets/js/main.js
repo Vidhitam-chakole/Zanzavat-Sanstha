@@ -288,12 +288,16 @@
     }
 
     /**
-     * 6. Form Submit Fetch integration (Contact & Volunteer Forms)
+     * 6. Form Submit Fetch integration (Contact, Volunteer & Goods In-Kind Forms)
      */
     initFormSubmissions() {
-      const forms = document.querySelectorAll('.vol-form, .contact-form');
+      const forms = document.querySelectorAll('.vol-form, .contact-form, .goods-form');
       const getApiBase = () => {
-        // If loaded from Live Server (e.g. port 5500, 3000, etc.) and backend runs on 5000
+        // If opened via file: protocol or no hostname
+        if (window.location.protocol === 'file:' || !window.location.hostname) {
+          return 'http://127.0.0.1:5000';
+        }
+        // If loaded from Live Server (e.g. port 5500, 3000, 5173, etc.) and backend runs on 5000
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
           if (window.location.port && window.location.port !== '5000') {
             return 'http://127.0.0.1:5000';
@@ -312,12 +316,19 @@
           if (!submitBtn) return;
           
           const isVolunteerForm = form.classList.contains('vol-form');
-          const endpoint = isVolunteerForm ? '/api/register' : '/api/contact';
+          const isGoodsForm = form.classList.contains('goods-form') || form.id === 'goods-donation-form';
+          let endpoint = '/api/contact';
+          if (isVolunteerForm) endpoint = '/api/register';
+          if (isGoodsForm) endpoint = '/api/donate-goods';
           const apiUrl = `${getApiBase()}${endpoint}`;
 
           const originalText = submitBtn.textContent;
           submitBtn.disabled = true;
-          submitBtn.textContent = isVolunteerForm ? 'Submitting Registration...' : 'Sending Message...';
+          submitBtn.textContent = isVolunteerForm 
+            ? 'Submitting Registration...' 
+            : isGoodsForm 
+            ? 'Submitting Donation Query...' 
+            : 'Sending Message...';
           
           if (feedback) {
             feedback.style.display = 'none';
@@ -337,6 +348,26 @@
               email: emailEl ? emailEl.value.trim() : '',
               phone: phoneEl ? phoneEl.value.trim() : '',
               interest: interestEl ? interestEl.value.trim() : '',
+              message: messageEl ? messageEl.value.trim() : ''
+            };
+          } else if (isGoodsForm) {
+            const nameEl = form.querySelector('#g-name') || form.querySelector('[name="name"]');
+            const emailEl = form.querySelector('#g-email') || form.querySelector('[name="email"]');
+            const phoneEl = form.querySelector('#g-phone') || form.querySelector('[name="phone"]');
+            const categoryEl = form.querySelector('#g-category') || form.querySelector('[name="category"]');
+            const itemsEl = form.querySelector('#g-items') || form.querySelector('[name="items"]');
+            const deliveryEl = form.querySelector('input[name="delivery_method"]:checked') || form.querySelector('#g-delivery');
+            const addressEl = form.querySelector('#g-address') || form.querySelector('[name="address"]');
+            const messageEl = form.querySelector('#g-message') || form.querySelector('[name="message"]');
+
+            payload = {
+              name: nameEl ? nameEl.value.trim() : '',
+              email: emailEl ? emailEl.value.trim() : '',
+              phone: phoneEl ? phoneEl.value.trim() : '',
+              category: categoryEl ? categoryEl.value.trim() : 'General In-Kind Donation',
+              items: itemsEl ? itemsEl.value.trim() : '',
+              delivery_method: deliveryEl ? deliveryEl.value.trim() : 'dropoff',
+              address: addressEl ? addressEl.value.trim() : '',
               message: messageEl ? messageEl.value.trim() : ''
             };
           } else {
@@ -369,20 +400,93 @@
             submitBtn.textContent = originalText;
 
             if (response.ok && (result.status === 'success' || response.status === 200)) {
-              form.reset();
-              if (feedback) {
-                feedback.textContent = isVolunteerForm 
-                  ? '✔ Registration Successful! Thank you for joining Zanzavat. Our Nagpur operations team will contact you shortly.'
-                  : '✔ Message Sent! Thank you for contacting Zanzavat Sanstha. We will get back to you shortly.';
-                feedback.style.backgroundColor = 'var(--color-green-light)';
-                feedback.style.color = 'var(--color-green)';
-                feedback.style.borderColor = 'var(--color-green)';
-                feedback.style.display = 'block';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              if (isGoodsForm) {
+                // Clear and hide form, display prominent sender confirmation card
+                const cardParent = form.parentElement;
+                form.style.display = 'none';
+                if (feedback) feedback.style.display = 'none';
+
+                const existingSuccess = cardParent.querySelector('.goods-success-card');
+                if (existingSuccess) existingSuccess.remove();
+
+                const deliveryText = payload.delivery_method === 'dropoff' 
+                  ? 'Drop-off at Nagpur Center' 
+                  : 'Volunteer Pickup Requested in Nagpur';
+
+                const successCard = document.createElement('div');
+                successCard.className = 'goods-success-card';
+                successCard.style.cssText = 'padding: 24px; background: rgba(46, 125, 50, 0.08); border: 2px solid #2e7d32; border-radius: 12px; margin-top: 10px; animation: fadeIn 0.4s ease;';
+                successCard.innerHTML = `
+                  <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px;">
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: #2e7d32; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" aria-hidden="true">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 style="margin: 0; color: #1b5e20; font-size: 1.25rem;">Donation Query Received Successfully!</h3>
+                      <p style="margin: 4px 0 0; color: #2e7d32; font-size: 0.95rem;">Thank you, <strong>${payload.name}</strong>! Your generosity directly supports rural students & families in Nagpur.</p>
+                    </div>
+                  </div>
+                  
+                  <div style="background: #ffffff; border: 1px solid rgba(46, 125, 50, 0.25); border-radius: 8px; padding: 16px; margin: 16px 0; font-size: 0.9rem; line-height: 1.6; color: #333;">
+                    <p style="margin: 0 0 8px 0; color: #1b5e20; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect width="20" height="16" x="2" y="4" rx="2"/>
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                      </svg>
+                      <span>Confirmation Email Dispatched</span>
+                    </p>
+                    <div style="font-size: 0.9rem; color: #444; margin-bottom: 8px;">
+                      An acknowledgment copy has been emailed to <span style="font-weight: 700; color: #2e7d32;">${payload.email}</span>.
+                    </div>
+                    <div style="border-top: 1px dashed #c8e6c9; padding-top: 8px; margin-top: 8px; font-size: 0.88rem; color: #555;">
+                      <div><strong>Item Category:</strong> ${payload.category}</div>
+                      <div><strong>Delivery Preference:</strong> ${deliveryText}</div>
+                      <div><strong>Contact Phone:</strong> ${payload.phone}</div>
+                    </div>
+                  </div>
+
+                  <div style="background: rgba(200, 35, 51, 0.06); border-left: 4px solid #c82333; border-radius: 4px; padding: 12px 14px; margin-bottom: 18px; font-size: 0.88rem; color: #444; line-height: 1.5;">
+                    <strong style="color: #c82333;">What Happens Next?</strong><br>
+                    Our Nagpur volunteer team will review your query and contact you within 24–48 hours to coordinate item collection.
+                  </div>
+
+                  <button type="button" class="btn btn-primary reset-goods-btn" style="width: 100%; justify-content: center; padding: 12px; font-weight: 600; cursor: pointer; border: none;">
+                    <span>Submit Another Donation Query</span> &rarr;
+                  </button>
+                `;
+
+                cardParent.appendChild(successCard);
+                successCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                const resetBtn = successCard.querySelector('.reset-goods-btn');
+                if (resetBtn) {
+                  resetBtn.addEventListener('click', () => {
+                    form.reset();
+                    form.style.display = 'block';
+                    successCard.remove();
+                    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                  });
+                }
+              } else {
+                form.reset();
+                if (feedback) {
+                  if (isVolunteerForm) {
+                    feedback.textContent = 'Registration Successful! Thank you for joining Zanzavat. Our Nagpur operations team will contact you shortly.';
+                  } else {
+                    feedback.textContent = 'Message Sent! Thank you for contacting Zanzavat Sanstha. We will get back to you shortly.';
+                  }
+                  feedback.style.backgroundColor = 'var(--color-green-light)';
+                  feedback.style.color = 'var(--color-green)';
+                  feedback.style.borderColor = 'var(--color-green)';
+                  feedback.style.display = 'block';
+                  feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
               }
             } else {
               if (feedback) {
-                feedback.textContent = `❌ Error: ${result.message || 'Submission failed. Please check your inputs and try again.'}`;
+                feedback.textContent = `Error: ${result.message || 'Submission failed. Please check your inputs and try again.'}`;
                 feedback.style.backgroundColor = '#FFEBEE';
                 feedback.style.color = '#C62828';
                 feedback.style.borderColor = '#C62828';
@@ -394,7 +498,7 @@
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
             if (feedback) {
-              feedback.textContent = `❌ Unable to reach server. Please ensure the backend server is running and try again.`;
+              feedback.textContent = 'Unable to reach server. Please ensure the backend server is running and try again.';
               feedback.style.backgroundColor = '#FFEBEE';
               feedback.style.color = '#C62828';
               feedback.style.borderColor = '#C62828';
@@ -417,6 +521,9 @@
       if (!launcher || !panel || !closeButton || !form || !input || !messages) return;
 
       const getApiBase = () => {
+        if (window.location.protocol === 'file:' || !window.location.hostname) {
+          return 'http://127.0.0.1:5000';
+        }
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
           if (window.location.port && window.location.port !== '5000') {
             return 'http://127.0.0.1:5000';

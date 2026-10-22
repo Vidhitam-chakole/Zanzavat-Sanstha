@@ -2,6 +2,7 @@ import csv
 import json
 import os
 import tempfile
+import threading
 import traceback
 from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory, redirect
@@ -55,6 +56,8 @@ REGISTRATIONS_JSON = os.path.join(DATA_DIR, "registrations.json")
 REGISTRATIONS_CSV = os.path.join(DATA_DIR, "registrations.csv")
 CONTACTS_JSON = os.path.join(DATA_DIR, "contacts.json")
 CONTACTS_CSV = os.path.join(DATA_DIR, "contacts.csv")
+GOODS_DONATIONS_JSON = os.path.join(DATA_DIR, "goods_donations.json")
+GOODS_DONATIONS_CSV = os.path.join(DATA_DIR, "goods_donations.csv")
 
 
 def ensure_local_data_files():
@@ -62,7 +65,7 @@ def ensure_local_data_files():
   try:
     os.makedirs(DATA_DIR, exist_ok=True)
 
-    for path in (REGISTRATIONS_JSON, CONTACTS_JSON):
+    for path in (REGISTRATIONS_JSON, CONTACTS_JSON, GOODS_DONATIONS_JSON):
       if not os.path.exists(path):
         with open(path, "w", encoding="utf-8") as f:
           json.dump([], f, indent=2, ensure_ascii=False)
@@ -76,6 +79,12 @@ def ensure_local_data_files():
     if not os.path.exists(CONTACTS_CSV):
       with open(CONTACTS_CSV, "w", newline="", encoding="utf-8") as f:
         fieldnames = ["name", "email", "phone", "subject", "message", "timestamp"]
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+
+    if not os.path.exists(GOODS_DONATIONS_CSV):
+      with open(GOODS_DONATIONS_CSV, "w", newline="", encoding="utf-8") as f:
+        fieldnames = ["name", "email", "phone", "category", "items", "delivery_method", "address", "message", "timestamp"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
   except OSError as err:
@@ -170,6 +179,204 @@ def insert_contact(record):
     ["name", "email", "phone", "subject", "message", "timestamp"],
   )
   return record
+
+
+def insert_goods_donation(record):
+  """Inserts an in-kind goods donation record into Supabase or falls back to local storage."""
+  if supabase:
+    try:
+      response = supabase.table("goods_donations").insert(record).execute()
+      return response.data
+    except Exception as e:
+      print(f"[WARNING] Supabase goods donation save failed; saving locally. Error: {e}")
+
+  save_local_json(GOODS_DONATIONS_JSON, record)
+  save_local_csv(
+    GOODS_DONATIONS_CSV,
+    record,
+    ["name", "email", "phone", "category", "items", "delivery_method", "address", "message", "timestamp"],
+  )
+  return record
+
+
+def send_goods_donation_admin_email(name, email, phone, category, items, delivery_method, address, message):
+  """Sends an alert email to the organization about a new goods donation query."""
+  if not app.config.get("MAIL_USERNAME") or not app.config.get("MAIL_PASSWORD"):
+    print("[INFO] Mail credentials not set; skipping admin goods donation email.")
+    return
+
+  admin_recipients = ["zanzavatsanstha@gmail.com"]
+  username = app.config.get("MAIL_USERNAME")
+  if username and username not in admin_recipients:
+    admin_recipients.append(username)
+
+  delivery_label = "Drop-off at Nagpur Center" if delivery_method == "dropoff" else "Volunteer Pickup Requested (Nagpur)"
+
+  msg = Message(
+    subject=f"New Goods Donation Query: {category} from {name}",
+    sender=app.config["MAIL_USERNAME"],
+    recipients=admin_recipients
+  )
+
+  msg.html = f"""
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:30px;background:#f4f4f4;font-family:Arial,sans-serif;">
+
+<table width="650" align="center" cellpadding="0" cellspacing="0"
+style="background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.1);">
+
+<tr>
+<td style="background:#C82333;padding:25px;text-align:center;color:white;">
+<h2 style="margin:0;">Zanzavat Bahuudeshiya Shaikshanik Sanstha</h2>
+<p style="margin:8px 0 0;font-size:14px;">Nagpur, Maharashtra, India • In-Kind Giving Branch</p>
+</td>
+</tr>
+
+<tr>
+<td style="padding:30px;">
+<h2 style="color:#C82333;margin-top:0;">New Goods Donation Inquiry</h2>
+<p style="color:#555;font-size:15px;line-height:1.5;">A donor has submitted a query offering physical goods to Zanzavat Sanstha:</p>
+
+<table width="100%" cellpadding="10" style="border-collapse:collapse;margin:20px 0;">
+<tr style="background:#f9f9f9;border-bottom:1px solid #eee;">
+<td width="32%"><b>Donor Name</b></td>
+<td>{name}</td>
+</tr>
+<tr style="border-bottom:1px solid #eee;">
+<td><b>Email</b></td>
+<td><a href="mailto:{email}" style="color:#C82333;font-weight:600;">{email}</a></td>
+</tr>
+<tr style="background:#f9f9f9;border-bottom:1px solid #eee;">
+<td><b>Phone</b></td>
+<td><a href="tel:{phone}" style="color:#C82333;font-weight:600;">{phone}</a></td>
+</tr>
+<tr style="border-bottom:1px solid #eee;">
+<td><b>Category</b></td>
+<td><b style="color:#222;">{category}</b></td>
+</tr>
+<tr style="background:#f9f9f9;border-bottom:1px solid #eee;">
+<td><b>Items & Details</b></td>
+<td style="white-space:pre-wrap;">{items}</td>
+</tr>
+<tr style="border-bottom:1px solid #eee;">
+<td><b>Delivery Preference</b></td>
+<td>{delivery_label}</td>
+</tr>
+<tr style="background:#f9f9f9;border-bottom:1px solid #eee;">
+<td><b>Address / Area</b></td>
+<td>{address or 'N/A'}</td>
+</tr>
+</table>
+
+<h3 style="margin-top:25px;color:#C82333;">Donor Notes / Message</h3>
+<div style="background:#fafafa;padding:16px;border-left:5px solid #C82333;line-height:1.7;color:#333;white-space:pre-wrap;">
+{message or 'No additional notes provided.'}
+</div>
+
+<hr style="margin:30px 0;border:0;border-top:1px solid #eee;">
+<p style="font-size:13px;color:#777;">
+<b>Submitted On:</b> {datetime.now().strftime("%d %B %Y • %I:%M %p")} IST
+</p>
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+"""
+  mail.send(msg)
+  print(f"[SUCCESS] Admin goods donation email sent to {admin_recipients}")
+
+
+def send_goods_donation_user_email(name, email, phone, category, items, delivery_method, address, message):
+  """Sends a confirmation and acknowledgment email to the donor who submitted the query."""
+  if not app.config.get("MAIL_USERNAME") or not app.config.get("MAIL_PASSWORD"):
+    print("[INFO] Mail credentials not set; skipping donor acknowledgment email.")
+    return
+
+  if not email or "@" not in email:
+    return
+
+  delivery_label = "Drop-off at Nagpur Center" if delivery_method == "dropoff" else "Volunteer Pickup Request (Nagpur)"
+
+  msg = Message(
+    subject=f"Thank You for Your Donation Query | Zanzavat Sanstha Nagpur",
+    sender=app.config["MAIL_USERNAME"],
+    recipients=[email]
+  )
+
+  address_row = f"""<tr style="background:#f9f9f9;border-bottom:1px solid #eee;">
+<td><b>Address / Area:</b></td>
+<td>{address}</td>
+</tr>""" if address else ""
+
+  msg.html = f"""
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:30px;background:#f4f4f4;font-family:Arial,sans-serif;">
+
+<table width="650" align="center" cellpadding="0" cellspacing="0"
+style="background:#ffffff;border-radius:10px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.1);">
+
+<tr>
+<td style="background:#C82333;padding:25px;text-align:center;color:white;">
+<h2 style="margin:0;">Zanzavat Bahuudeshiya Shaikshanik Sanstha</h2>
+<p style="margin:8px 0 0;font-size:14px;">Nagpur, Maharashtra, India • Serving Communities with Compassion</p>
+</td>
+</tr>
+
+<tr>
+<td style="padding:30px;">
+<h2 style="color:#C82333;margin-top:0;">Namaste {name}, thank you!</h2>
+<p style="color:#444;font-size:15px;line-height:1.6;">
+We have received your donation query offering <b>{category}</b> to support our community drives in Nagpur. Your compassion and generosity help bring real hope (आशा) to underprivileged children, rural students, and families in need.
+</p>
+
+<div style="background:#FFF9F9;border:1px solid #FFCDD2;border-radius:8px;padding:20px;margin:22px 0;">
+<h3 style="color:#C82333;margin-top:0;font-size:16px;">Summary of Your Submission</h3>
+<table width="100%" cellpadding="8" style="border-collapse:collapse;font-size:14px;">
+<tr style="border-bottom:1px solid #eee;">
+<td width="35%"><b>Item Category:</b></td>
+<td><b>{category}</b></td>
+</tr>
+<tr style="background:#f9f9f9;border-bottom:1px solid #eee;">
+<td><b>Items & Details:</b></td>
+<td style="white-space:pre-wrap;">{items}</td>
+</tr>
+<tr style="border-bottom:1px solid #eee;">
+<td><b>Delivery Method:</b></td>
+<td>{delivery_label}</td>
+</tr>
+{address_row}
+</table>
+</div>
+
+<h3 style="color:#222;font-size:16px;margin-bottom:8px;">What Happens Next?</h3>
+<p style="color:#555;font-size:14px;line-height:1.6;">
+Our volunteer coordination team in Nagpur will review your query and connect with you at <b>{phone}</b> or this email within 24 to 48 hours to confirm the logistics and schedule the collection or drop-off.
+</p>
+
+<div style="background:#f7f7f7;border-left:4px solid #C82333;padding:16px;margin:22px 0;font-size:13px;color:#555;line-height:1.6;">
+<b>Direct Helpline & Drop-off Information:</b><br>
+<b>Drop-off Location:</b> Nagpur, Maharashtra, India<br>
+<b>Helpline:</b> <a href="tel:+919322552882" style="color:#C82333;font-weight:600;">+91 93225 52882</a><br>
+<b>Email:</b> <a href="mailto:zanzavatsanstha@gmail.com" style="color:#C82333;font-weight:600;">zanzavatsanstha@gmail.com</a>
+</div>
+
+<p style="color:#777;font-size:13px;text-align:center;margin-top:30px;line-height:1.5;">
+Zanzavat Bahuudeshiya Shaikshanik Sanstha — Registered NGO under Societies Registration Act.<br>
+Thank you for standing with our community to create positive change (परिवर्तन).
+</p>
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+"""
+  mail.send(msg)
+  print(f"[SUCCESS] Donor acknowledgment email sent to {email}")
 
 
 def send_contact_email(name, email, phone, subject, message):
@@ -317,6 +524,13 @@ def serve_donate():
   return send_from_directory('.', 'donate.html')
 
 
+@app.route('/donate-goods')
+@app.route('/donate-goods.html')
+@app.route('/donate/goods')
+def serve_donate_goods():
+  return send_from_directory('.', 'donate-goods.html')
+
+
 @app.route('/contact')
 def serve_contact():
   return send_from_directory('.', 'contact.html')
@@ -435,6 +649,80 @@ def contact_message():
     return jsonify({"status": "error", "message": str(e)}), 500
 
 
+def send_goods_donation_emails_async(app_obj, name, email, phone, category, items, delivery_method, address, message):
+  """Sends admin alert and donor confirmation emails asynchronously in the background."""
+  with app_obj.app_context():
+    # 1. Send alert email to our organization ("our mail")
+    try:
+      print(f"[MAIL] Sending goods donation admin alert for '{name}' ({email})...")
+      send_goods_donation_admin_email(name, email, phone, category, items, delivery_method, address, message)
+    except Exception as mail_err:
+      print(f"[WARNING] Admin notification email for goods donation failed: {mail_err}")
+
+    # 2. Send acknowledgment/confirmation email to the donor ("the one who is putting the query")
+    try:
+      print(f"[MAIL] Sending donor acknowledgment email to '{email}'...")
+      send_goods_donation_user_email(name, email, phone, category, items, delivery_method, address, message)
+    except Exception as user_mail_err:
+      print(f"[WARNING] Donor confirmation email failed: {user_mail_err}")
+
+
+@app.route('/api/donate-goods', methods=['POST', 'OPTIONS'])
+def donate_goods():
+  """Handles in-kind goods donation queries, saving to storage and sending notification emails."""
+  if request.method == 'OPTIONS':
+    return jsonify({"status": "ok"}), 200
+
+  try:
+    data = request.json or {}
+    name = data.get('name', '').strip()
+    email = data.get('email', '').strip()
+    phone = data.get('phone', '').strip()
+    category = data.get('category', '').strip() or 'General Goods'
+    items = data.get('items', '').strip()
+    delivery_method = data.get('delivery_method', '').strip() or 'dropoff'
+    address = data.get('address', '').strip()
+    message = data.get('message', '').strip()
+
+    if not name or not email or not phone or not items:
+      return jsonify({
+        "status": "error",
+        "message": "Name, email, phone, and items description are required."
+      }), 400
+
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    record = {
+      "name": name,
+      "email": email,
+      "phone": phone,
+      "category": category,
+      "items": items,
+      "delivery_method": delivery_method,
+      "address": address,
+      "message": message,
+      "timestamp": timestamp
+    }
+
+    insert_goods_donation(record)
+
+    # Dispatch email sending in a background thread for zero-latency instant response on the webpage
+    email_thread = threading.Thread(
+      target=send_goods_donation_emails_async,
+      args=(app, name, email, phone, category, items, delivery_method, address, message),
+      daemon=True
+    )
+    email_thread.start()
+
+    return jsonify({
+      "status": "success",
+      "message": "Thank you! Your donation query has been received. A confirmation email has been sent to your inbox."
+    })
+  except Exception as e:
+    traceback.print_exc()
+    return jsonify({"status": "error", "message": str(e)}), 500
+
+
 AI_SYSTEM_PROMPT = """You are the official, helpful AI assistant for Zanzavat Bahuudeshiya Shaikshanik Sanstha, a registered NGO based in Nagpur, Maharashtra, India.
 
 Key Organization Details:
@@ -546,10 +834,14 @@ def serve_static(filename):
 
 @app.after_request
 def add_cache_headers(response):
-  """Adds aggressive client caching for static media and efficient revalidation for pages."""
+  """Adds CORS headers for client requests and caching for static files."""
+  response.headers['Access-Control-Allow-Origin'] = '*'
+  response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, PUT, DELETE'
+  response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With'
+
   if request.path.startswith('/assets/'):
     response.headers['Cache-Control'] = 'public, max-age=86400, stale-while-revalidate=3600'
-  elif any(request.path.endswith(ext) for ext in ('.html', '.json')) or request.path in ('/', '/about', '/impact', '/events', '/join', '/donate', '/contact'):
+  elif any(request.path.endswith(ext) for ext in ('.html', '.json')) or request.path in ('/', '/about', '/impact', '/events', '/join', '/donate', '/donate-goods', '/donate-goods.html', '/contact'):
     response.headers['Cache-Control'] = 'public, max-age=300, stale-while-revalidate=60'
   return response
 
@@ -564,4 +856,3 @@ if __name__ == '__main__':
   print(" Running locally on http://127.0.0.1:5000")
   print("=========================================================")
   app.run(debug=True, port=5000, threaded=True)
-

@@ -144,28 +144,83 @@
      * Lazy Video Playback & Performance Optimization
      */
     initLazyVideos() {
+      const cards = document.querySelectorAll('.insta-video-card');
       const videos = document.querySelectorAll('.insta-video, video[data-src]');
       if (videos.length === 0) return;
 
+      // Ensure proper media attributes and DOM properties for smooth autoplay across browsers
+      videos.forEach(video => {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.setAttribute('muted', '');
+
+        // Fallback for data-src if src is missing
+        if (!video.src && video.dataset.src) {
+          video.src = video.dataset.src;
+        }
+      });
+
+      // Interactive Click / Tap handling on video cards
+      cards.forEach(card => {
+        const video = card.querySelector('.insta-video');
+        if (!video) return;
+
+        const updateState = () => {
+          if (video.paused) {
+            card.classList.remove('is-playing');
+          } else {
+            card.classList.add('is-playing');
+          }
+        };
+
+        video.addEventListener('play', updateState);
+        video.addEventListener('pause', updateState);
+        video.addEventListener('ended', updateState);
+
+        card.addEventListener('click', () => {
+          if (video.paused) {
+            video.muted = true;
+            video.play().catch(err => {
+              console.warn('Video playback prevented:', err);
+            });
+          } else {
+            video.pause();
+          }
+        });
+      });
+
+      // Viewport Intersection Observer for autoplaying when visible and pausing when out of view
       if ('IntersectionObserver' in window) {
         const videoObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
-            const video = entry.target;
+            const el = entry.target;
+            const video = el.tagName === 'VIDEO' ? el : el.querySelector('video');
+            if (!video) return;
+
             if (entry.isIntersecting) {
-              if (!video.src && video.dataset.src) {
-                video.src = video.dataset.src;
-                video.load();
+              video.muted = true;
+              const playPromise = video.play();
+              if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                  // Autoplay blocked by browser policy without user gesture; poster remains visible
+                });
               }
-              video.play().catch(() => {});
             } else {
               if (!video.paused) {
                 video.pause();
               }
             }
           });
-        }, { threshold: 0.15, rootMargin: '150px 0px' });
+        }, { threshold: 0.2, rootMargin: '50px 0px' });
 
-        videos.forEach(v => videoObserver.observe(v));
+        if (cards.length > 0) {
+          cards.forEach(c => videoObserver.observe(c));
+        } else {
+          videos.forEach(v => videoObserver.observe(v));
+        }
       }
     }
 
@@ -409,9 +464,7 @@
                 const existingSuccess = cardParent.querySelector('.goods-success-card');
                 if (existingSuccess) existingSuccess.remove();
 
-                const deliveryText = payload.delivery_method === 'dropoff' 
-                  ? 'Drop-off at Nagpur Center' 
-                  : 'Volunteer Pickup Requested in Nagpur';
+                const deliveryText = 'Drop-off at Nagpur Center';
 
                 const successCard = document.createElement('div');
                 successCard.className = 'goods-success-card';
@@ -449,7 +502,7 @@
 
                   <div style="background: rgba(200, 35, 51, 0.06); border-left: 4px solid #c82333; border-radius: 4px; padding: 12px 14px; margin-bottom: 18px; font-size: 0.88rem; color: #444; line-height: 1.5;">
                     <strong style="color: #c82333;">What Happens Next?</strong><br>
-                    Our Nagpur volunteer team will review your query and contact you within 24–48 hours to coordinate item collection.
+                    Our Nagpur volunteer team will review your query and contact you within 24–48 hours to coordinate drop-off at our center.
                   </div>
 
                   <button type="button" class="btn btn-primary reset-goods-btn" style="width: 100%; justify-content: center; padding: 12px; font-weight: 600; cursor: pointer; border: none;">

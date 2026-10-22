@@ -212,246 +212,261 @@
       </div>
     </div>
   </header>
-  
+
   <main id="main-content">
 
-  <!-- Hero Section with Background Carousel -->
-  <section class="hero-slider-container">
-    <!-- Slide 1 -->
-    <div class="hero-slide active" style="background-image: url('/assets/images/hero/hero-1.webp'), linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)); background-blend-mode: overlay;background-size: contain;
+    <!-- Hero Section with Background Carousel -->
+    <section class="hero-slider-container">
+      <!-- Slide 1 -->
+      <div class="hero-slide active" style="background-image: url('/assets/images/hero/hero-1.webp'), linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)); background-blend-mode: overlay;background-size: contain;
 ">
+        <div class="container">
+          <div class="hero-content">
+            <span class="section-tag" style="color: var(--color-accent); border-color: var(--color-accent);">Our
+              Mission</span>
+            <h1 class="hero-title">Nurturing Lives Through <span class="marathi-anchor">शिक्षण</span></h1>
+            <p class="hero-subtitle">Providing quality educational support, materials, and guidance to children in
+              underserved rural areas.</p>
+            <div class="hero-buttons">
+              <a href="join.html" class="btn btn-outline-light">Get Involved</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="hero-slide"
+        style="background-image: url('/assets/images/hero/hero-2.webp'), linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)); background-blend-mode: overlay;">
+        <div class="container">
+          <div class="hero-content">
+            <span class="section-tag" style="color: var(--color-accent); border-color: var(--color-accent);">Our
+              Philosophy</span>
+            <h1 class="hero-title">Creating Change Through <span class="marathi-anchor">सेवा</span></h1>
+            <p class="hero-subtitle">Organizing medical checkup camps, ration distribution drives, and community welfare
+              programs.</p>
+            <div class="hero-buttons">
+              <a href="impact.html" class="btn btn-accent">View Our Impact</a>
+              <a href="donate.html" class="btn btn-outline-light">Support Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="hero-slide"
+        style="background-image: url('/assets/images/hero/hero-3.webp'), linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)); background-blend-mode: overlay;">
+        <div class="container">
+          <div class="hero-content">
+            <span class="section-tag" style="color: var(--color-accent); border-color: var(--color-accent);">Join The
+              Cause</span>
+            <h1 class="hero-title">Building a Future Filled with <span class="marathi-anchor">आशा</span></h1>
+            <p class="hero-subtitle">Bringing smiles and new opportunities to children and families across communities
+              communities.</p>
+            <div class="hero-buttons">
+              <a href="join.html" class="btn btn-accent">Become a Volunteer</a>
+              <a href="events.html" class="btn btn-outline-light">View Events</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carousel Controls -->
+      <div class="hero-controls">
+        <button class="hero-indicator active" aria-label="Slide 1"></button>
+        <button class="hero-indicator" aria-label="Slide 2"></button>
+        <button class="hero-indicator" aria-label="Slide 3"></button>
+      </div>
+    </section>
+
+    <button class="ai-chat-launcher" id="ai-chat-launcher" type="button" aria-label="Open AI assistant"
+      aria-controls="ai-chat-panel" aria-expanded="false">
+      <span class="ai-chat-launcher-icon" aria-hidden="true">✦</span>
+      <span>Ask Zanzavat AI</span>
+    </button>
+
+    <aside class="ai-chat-panel" id="ai-chat-panel" aria-label="Zanzavat AI assistant" aria-hidden="true">
+      <div class="ai-chat-header">
+        <div>
+          <span class="ai-chat-eyebrow">Zanzavat Assistant</span>
+          <h2>How can we help?</h2>
+        </div>
+        <button class="ai-chat-close" id="ai-chat-close" type="button" aria-label="Close AI assistant">&times;</button>
+      </div>
+      <div class="ai-chat-messages" id="ai-chat-messages" aria-live="polite">
+        <div class="ai-chat-message ai-chat-message-assistant">Hello! Ask me about our programs, volunteering,
+          donations,
+          or upcoming events.</div>
+      </div>
+      <form class="ai-chat-form" id="ai-chat-form">
+        <label class="sr-only" for="ai-chat-input">Message</label>
+        <textarea id="ai-chat-input" rows="1" placeholder="Ask a question..." required></textarea>
+        <button class="ai-chat-send" type="submit" aria-label="Send message">Send</button>
+      </form>
+    </aside>
+
+    <!-- Impact Section (Counters) -->
+    <section class="counter-section">
       <div class="container">
-        <div class="hero-content">
-          <span class="section-tag" style="color: var(--color-accent); border-color: var(--color-accent);">Our Mission</span>
-          <h1 class="hero-title">Nurturing Lives Through <span class="marathi-anchor">शिक्षण</span></h1>
-          <p class="hero-subtitle">Providing quality educational support, materials, and guidance to children in
-            underserved rural areas.</p>
-          <div class="hero-buttons">
-            <a href="join.html" class="btn btn-outline-light">Get Involved</a>
+        <div class="counter-grid">
+          <div class="counter-item">
+            <div class="counter-num" data-target="100" data-suffix="+">0+</div>
+            <div class="counter-label">Children Supported</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-num" data-target="350" data-suffix="+">0+</div>
+            <div class="counter-label">Lives Impacted</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-num" data-target="25" data-suffix="+">0+</div>
+            <div class="counter-label">Active Volunteers</div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Slide 2 -->
-    <div class="hero-slide"
-      style="background-image: url('/assets/images/hero/hero-2.webp'), linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)); background-blend-mode: overlay;">
+    </section>
+
+    <!-- Who We Are (Storytelling Block) -->
+    <section class="reveal">
       <div class="container">
-        <div class="hero-content">
-          <span class="section-tag" style="color: var(--color-accent); border-color: var(--color-accent);">Our
-            Philosophy</span>
-          <h1 class="hero-title">Creating Change Through <span class="marathi-anchor">सेवा</span></h1>
-          <p class="hero-subtitle">Organizing medical checkup camps, ration distribution drives, and community welfare
-            programs.</p>
-          <div class="hero-buttons">
-            <a href="impact.html" class="btn btn-accent">View Our Impact</a>
-            <a href="donate.html" class="btn btn-outline-light">Support Us</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Slide 3 -->
-    <div class="hero-slide"
-      style="background-image: url('/assets/images/hero/hero-3.webp'), linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)); background-blend-mode: overlay;">
-      <div class="container">
-        <div class="hero-content">
-          <span class="section-tag" style="color: var(--color-accent); border-color: var(--color-accent);">Join The
-            Cause</span>
-          <h1 class="hero-title">Building a Future Filled with <span class="marathi-anchor">आशा</span></h1>
-          <p class="hero-subtitle">Bringing smiles and new opportunities to children and families across communities
-            communities.</p>
-          <div class="hero-buttons">
-            <a href="join.html" class="btn btn-accent">Become a Volunteer</a>
-            <a href="events.html" class="btn btn-outline-light">View Events</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Carousel Controls -->
-    <div class="hero-controls">
-      <button class="hero-indicator active" aria-label="Slide 1"></button>
-      <button class="hero-indicator" aria-label="Slide 2"></button>
-      <button class="hero-indicator" aria-label="Slide 3"></button>
-    </div>
-  </section>
-
-  <button class="ai-chat-launcher" id="ai-chat-launcher" type="button" aria-label="Open AI assistant"
-    aria-controls="ai-chat-panel" aria-expanded="false">
-    <span class="ai-chat-launcher-icon" aria-hidden="true">✦</span>
-    <span>Ask Zanzavat AI</span>
-  </button>
-
-  <aside class="ai-chat-panel" id="ai-chat-panel" aria-label="Zanzavat AI assistant" aria-hidden="true">
-    <div class="ai-chat-header">
-      <div>
-        <span class="ai-chat-eyebrow">Zanzavat Assistant</span>
-        <h2>How can we help?</h2>
-      </div>
-      <button class="ai-chat-close" id="ai-chat-close" type="button" aria-label="Close AI assistant">&times;</button>
-    </div>
-    <div class="ai-chat-messages" id="ai-chat-messages" aria-live="polite">
-      <div class="ai-chat-message ai-chat-message-assistant">Hello! Ask me about our programs, volunteering, donations,
-        or upcoming events.</div>
-    </div>
-    <form class="ai-chat-form" id="ai-chat-form">
-      <label class="sr-only" for="ai-chat-input">Message</label>
-      <textarea id="ai-chat-input" rows="1" placeholder="Ask a question..." required></textarea>
-      <button class="ai-chat-send" type="submit" aria-label="Send message">Send</button>
-    </form>
-  </aside>
-
-  <!-- Impact Section (Counters) -->
-  <section class="counter-section">
-    <div class="container">
-      <div class="counter-grid">
-        <div class="counter-item">
-          <div class="counter-num" data-target="100" data-suffix="+">0+</div>
-          <div class="counter-label">Children Supported</div>
-        </div>
-        <div class="counter-item">
-          <div class="counter-num" data-target="350" data-suffix="+">0+</div>
-          <div class="counter-label">Lives Impacted</div>
-        </div>
-        <div class="counter-item">
-          <div class="counter-num" data-target="25" data-suffix="+">0+</div>
-          <div class="counter-label">Active Volunteers</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Who We Are (Storytelling Block) -->
-  <section class="reveal">
-    <div class="container">
-      <div class="who-we-are-split">
-        <div class="who-content">
-          <span class="section-tag">Who We Are</span>
-          <h2 style="font-family: var(--font-serif); margin-bottom: 20px;">Dedicated to Uplifting Communities
-          </h2>
-          <p>Zanzavat Bahuudeshiya Shaikshanik Sanstha is a non-governmental organization founded on the
-            pillars of compassion, equality, and service. Over the last few years, we have worked tirelessly at the
-            grassroots level to bring meaningful changes to the Healthcare And educational system. Guided by the Moto
-            <strong>"Equality isn't justified; humanity is".</strong> We are committed to shaping brighter future
-            through knowledge and care.</p>
-          <p> Our
-            mission is to uplift communities through education support, healthcare assistance, and essential resource
-            distributions. We believe that positive <span class="marathi-anchor">परिवर्तन</span> starts when we support
-            the welfare of our children.</p>
-          <a href="about.html" class="btn btn-primary" style="margin-top: 15px;">Read Our Full History</a>
-        </div>
-        <div class="who-img-frame">
-          <img src="/assets/images/about/about-main.webp" alt="Children supported by Zanzavat Sanstha educational programs in Nagpur" class="who-main-img" loading="lazy" decoding="async"
-            onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Programs Preview Section -->
-  <section style="background-color: var(--color-bg-alt);" class="reveal" id="programs">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Our Programs</span>
-        <h2>Core Areas of Community Welfare</h2>
-        <p>We believe in a holistic approach to child and community development. Here is how we make a difference every
-          day.</p>
-      </div>
-
-      <div class="card-grid">
-        <!-- Card 1 -->
-        <div class="card">
-          <div class="card-img-wrapper">
-            <img src="/assets/images/education-support/edu-card.webp" alt="Educating India For India - Grassroots education and stationery drive by Zanzavat Sanstha" loading="lazy" decoding="async"
-              onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
-          </div>
-          <div class="card-content">
-            <h3 class="card-title">Educating India For India</h3>
-            <p class="card-text">Conducted a 10–12 week educational drive for underprivileged children in slum
-              communities, providing academic support and future guidance. The program also promoted social values and
-              ethical awareness.</p>
-          </div>
-        </div>
-        <!-- Card 2 -->
-        <div class="card">
-          <div class="card-img-wrapper">
-            <img src="/assets/images/medical-camps/med-card.webp" alt="Wellness for Every Indian - Free medical and health checkup camps by Zanzavat Sanstha" loading="lazy" decoding="async"
-              onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
-          </div>
-          <div class="card-content">
-            <h3 class="card-title"> Wellness for Every Indian </h3>
-            <p class="card-text">Conducted weekly medical drives to promote health awareness, provide essential
-              medicines, and educate communities about personal hygiene and well-being. Critical cases were identified
-              and referred for free medical treatment and further care.
+        <div class="who-we-are-split">
+          <div class="who-content">
+            <span class="section-tag">Who We Are</span>
+            <h2 style="font-family: var(--font-serif); margin-bottom: 20px;">Dedicated to Uplifting Communities
+            </h2>
+            <p>Zanzavat Bahuudeshiya Shaikshanik Sanstha is a non-governmental organization founded on the
+              pillars of compassion, equality, and service. Over the last few years, we have worked tirelessly at the
+              grassroots level to bring meaningful changes to the Healthcare And educational system. Guided by the Moto
+              <strong>"Equality isn't justified; humanity is".</strong> We are committed to shaping brighter future
+              through knowledge and care.
             </p>
+            <p> Our
+              mission is to uplift communities through education support, healthcare assistance, and essential resource
+              distributions. We believe that positive <span class="marathi-anchor">परिवर्तन</span> starts when we
+              support
+              the welfare of our children.</p>
+            <a href="about.html" class="btn btn-primary" style="margin-top: 15px;">Read Our Full History</a>
+          </div>
+          <div class="who-img-frame">
+            <img src="/assets/images/about/about-main.webp"
+              alt="Children supported by Zanzavat Sanstha educational programs in Nagpur" class="who-main-img"
+              loading="lazy" decoding="async" onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
+
           </div>
         </div>
-        <!-- Card 3 -->
-        <div class="card">
-          <div class="card-img-wrapper">
-            <img src="/assets/images/food-distribution/food-card.webp" alt="Checkmate Championship chess fundraiser and community welfare initiative by Zanzavat Sanstha" loading="lazy" decoding="async"
-              onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
+      </div>
+    </section>
+
+    <!-- Programs Preview Section -->
+    <section style="background-color: var(--color-bg-alt);" class="reveal" id="programs">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Our Programs</span>
+          <h2>Core Areas of Community Welfare</h2>
+          <p>We believe in a holistic approach to child and community development. Here is how we make a difference
+            every
+            day.</p>
+        </div>
+
+        <div class="card-grid">
+          <!-- Card 1 -->
+          <div class="card">
+            <div class="card-img-wrapper">
+              <img src="/assets/images/education-support/edu-card.webp"
+                alt="Educating India For India - Grassroots education and stationery drive by Zanzavat Sanstha"
+                loading="lazy" decoding="async" onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Educating India For India</h3>
+              <p class="card-text">Conducted a 10–12 week educational drive for underprivileged children in slum
+                communities, providing academic support and future guidance. The program also promoted social values and
+                ethical awareness.</p>
+            </div>
           </div>
-          <div class="card-content">
-            <h3 class="card-title">Checkmate Championship</h3>
-            <p class="card-text">Checkmate Championship, Our annual Fundraising event is one of Vidarbha's largest
-              annual chess tournaments That is being organised for a purpose
-            </p>
+          <!-- Card 2 -->
+          <div class="card">
+            <div class="card-img-wrapper">
+              <img src="/assets/images/medical-camps/med-card.webp"
+                alt="Wellness for Every Indian - Free medical and health checkup camps by Zanzavat Sanstha"
+                loading="lazy" decoding="async" onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title"> Wellness for Every Indian </h3>
+              <p class="card-text">Conducted weekly medical drives to promote health awareness, provide essential
+                medicines, and educate communities about personal hygiene and well-being. Critical cases were identified
+                and referred for free medical treatment and further care.
+              </p>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="card">
+            <div class="card-img-wrapper">
+              <img src="/assets/images/food-distribution/food-card.webp"
+                alt="Checkmate Championship chess fundraiser and community welfare initiative by Zanzavat Sanstha"
+                loading="lazy" decoding="async" onerror="this.src='/assets/images/logo/logo-placeholder.webp';">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Checkmate Championship</h3>
+              <p class="card-text">Checkmate Championship, Our annual Fundraising event is one of Vidarbha's largest
+                annual chess tournaments That is being organised for a purpose
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CTA Banner Section -->
-  <section class="container reveal">
-    <div class="cta-banner">
-      <div class="cta-banner-content">
-        <h2 class="cta-banner-title">Let us work together for positive <span class="marathi-anchor"
-            style="color: var(--color-accent);">परिवर्तन</span></h2>
-        <p class="cta-banner-text">Your support can sponsor a child's education kit, fund a medical checkup Or help us
-          to pay back to the Society By volunteering. </p>
+    <!-- CTA Banner Section -->
+    <section class="container reveal">
+      <div class="cta-banner">
+        <div class="cta-banner-content">
+          <h2 class="cta-banner-title">Let us work together for positive <span class="marathi-anchor"
+              style="color: var(--color-accent);">परिवर्तन</span></h2>
+          <p class="cta-banner-text">Your support can sponsor a child's education kit, fund a medical checkup Or help us
+            to pay back to the Society By volunteering. </p>
+        </div>
+        <div class="cta-banner-actions">
+          <a href="donate.html" class="btn btn-accent">Donate Online</a>
+          <a href="join.html" class="btn btn-outline-light">Join as Volunteer</a>
+        </div>
       </div>
-      <div class="cta-banner-actions">
-        <a href="donate.html" class="btn btn-accent">Donate Online</a>
-        <a href="join.html" class="btn btn-outline-light">Join as Volunteer</a>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Live Instagram Preview -->
-  <section style="background-color: var(--color-bg-alt);" class="reveal">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">On Instagram</span>
-        <h2>Follow Our Journey</h2>
-        <p>Stay updated with our daily ground activities, distribution updates, and volunteer drives. Join our social
-          family on <a href="https://www.instagram.com/zanzavat_sanstha" target="_blank"
-            style="color: var(--color-primary); font-weight: bold;">Instagram</a>.</p>
-      </div>
+    <!-- Live Instagram Preview -->
+    <section style="background-color: var(--color-bg-alt);" class="reveal">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">On Instagram</span>
+          <h2>Follow Our Journey</h2>
+          <p>Stay updated with our daily ground activities, distribution updates, and volunteer drives. Join our social
+            family on <a href="https://www.instagram.com/zanzavat_sanstha" target="_blank"
+              style="color: var(--color-primary); font-weight: bold;">Instagram</a>.</p>
+        </div>
 
-      <div class="insta-preview-container">
-        <video class="insta-video" muted loop playsinline preload="none" data-src="/assets/images/gallery/Video-1.mp4">
-          Your browser does not support the video tag.
-        </video>
-        <video class="insta-video" muted loop playsinline preload="none" data-src="/assets/images/gallery/Video-2.mp4">
-          Your browser does not support the video tag.
-        </video>
-        <video class="insta-video" muted loop playsinline preload="none" data-src="/assets/images/gallery/Video-3.mp4">
-          Your browser does not support the video tag.
-        </video>
-        <video class="insta-video" muted loop playsinline preload="none" data-src="/assets/images/gallery/Video-4.mp4">
-          Your browser does not support the video tag.
-        </video>
-        <video class="insta-video" muted loop playsinline preload="none" data-src="/assets/images/gallery/Video-5.mp4">
-          Your browser does not support the video tag.
-        </video>
-        <video class="insta-video" muted loop playsinline preload="none" data-src="/assets/images/gallery/Video-6.mp4">
-          Your browser does not support the video tag.
-        </video>
+        <div class="insta-preview-container">
+          <video class="insta-video" muted loop playsinline preload="none"
+            data-src="/assets/images/gallery/Video-1.mp4">
+            Your browser does not support the video tag.
+          </video>
+          <video class="insta-video" muted loop playsinline preload="none"
+            data-src="/assets/images/gallery/Video-2.mp4">
+            Your browser does not support the video tag.
+          </video>
+          <video class="insta-video" muted loop playsinline preload="none"
+            data-src="/assets/images/gallery/Video-3.mp4">
+            Your browser does not support the video tag.
+          </video>
+          <video class="insta-video" muted loop playsinline preload="none"
+            data-src="/assets/images/gallery/Video-4.mp4">
+            Your browser does not support the video tag.
+          </video>
+          <video class="insta-video" muted loop playsinline preload="none"
+            data-src="/assets/images/gallery/Video-5.mp4">
+            Your browser does not support the video tag.
+          </video>
+          <video class="insta-video" muted loop playsinline preload="none"
+            data-src="/assets/images/gallery/Video-6.mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   </main>
 
   <!-- Footer Section -->

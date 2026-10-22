@@ -210,7 +210,7 @@ def send_goods_donation_admin_email(name, email, phone, category, items, deliver
   if username and username not in admin_recipients:
     admin_recipients.append(username)
 
-  delivery_label = "Drop-off at Nagpur Center" if delivery_method == "dropoff" else "Volunteer Pickup Requested (Nagpur)"
+  delivery_label = "Drop-off at Nagpur Operations Center"
 
   msg = Message(
     subject=f"New Goods Donation Query: {category} from {name}",
@@ -298,7 +298,7 @@ def send_goods_donation_user_email(name, email, phone, category, items, delivery
   if not email or "@" not in email:
     return
 
-  delivery_label = "Drop-off at Nagpur Center" if delivery_method == "dropoff" else "Volunteer Pickup Request (Nagpur)"
+  delivery_label = "Drop-off at Nagpur Operations Center"
 
   msg = Message(
     subject=f"Thank You for Your Donation Query | Zanzavat Sanstha Nagpur",
@@ -354,7 +354,7 @@ We have received your donation query offering <b>{category}</b> to support our c
 
 <h3 style="color:#222;font-size:16px;margin-bottom:8px;">What Happens Next?</h3>
 <p style="color:#555;font-size:14px;line-height:1.6;">
-Our volunteer coordination team in Nagpur will review your query and connect with you at <b>{phone}</b> or this email within 24 to 48 hours to confirm the logistics and schedule the collection or drop-off.
+Our volunteer coordination team in Nagpur will review your query and connect with you at <b>{phone}</b> or this email within 24 to 48 hours to coordinate and schedule your drop-off.
 </p>
 
 <div style="background:#f7f7f7;border-left:4px solid #C82333;padding:16px;margin:22px 0;font-size:13px;color:#555;line-height:1.6;">

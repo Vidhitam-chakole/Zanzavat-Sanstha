@@ -240,7 +240,7 @@
                   <div class="goods-step-badge">1</div>
                   <div>
                     <h5 style="margin: 0 0 3px 0; font-size: 0.95rem; color: var(--color-charcoal);">Submit Item Details</h5>
-                    <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">Fill out the form with the essentials you'd like to contribute and choose drop-off or pickup.</p>
+                    <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5;">Fill out the form with the essentials you would like to contribute.</p>
                   </div>
                 </div>
 
@@ -273,8 +273,7 @@
                 <span>Nagpur Drop-off Center & Helpline</span>
               </h4>
               <p style="font-size: 0.88rem; margin-bottom: 12px; color: var(--color-text-muted);">
-                Donations can be delivered in person to our Nagpur operations center or picked up by our volunteer
-                transport team.
+                Donations can be delivered in person to our Nagpur operations center.
               </p>
               <ul
                 style="list-style: none; padding: 0; margin: 0; font-size: 0.88rem; color: var(--color-charcoal); line-height: 1.8;">
@@ -316,7 +315,7 @@
               </h4>
               <p style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 20px; line-height: 1.5;">
                 Please tell us what you would like to donate. Our volunteer team will review your query and contact you
-                to coordinate drop-off or pickup in Nagpur.
+                to coordinate drop-off at our Nagpur center.
               </p>
 
               <!-- Feedback Alert Box -->
@@ -326,6 +325,8 @@
 
               <!-- Query Form -->
               <form id="goods-donation-form" class="goods-form">
+                <input type="hidden" name="delivery_method" value="dropoff">
+
                 <div class="form-group">
                   <label class="form-label" for="g-name">Full Name *</label>
                   <input type="text" id="g-name" name="name" class="form-control" required
@@ -365,25 +366,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="form-label">Delivery / Collection Preference *</label>
-                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px;">
-                    <label
-                      style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--color-bg-light); border: 1px solid var(--border-color); border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; font-weight: 500;">
-                      <input type="radio" name="delivery_method" value="dropoff" checked
-                        style="accent-color: var(--color-primary);">
-                      <span>Drop-off at Nagpur Center</span>
-                    </label>
-                    <label
-                      style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--color-bg-light); border: 1px solid var(--border-color); border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; font-weight: 500;">
-                      <input type="radio" name="delivery_method" value="pickup"
-                        style="accent-color: var(--color-primary);">
-                      <span>Request Volunteer Pickup</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="g-address">Your Address & Area in Nagpur</label>
+                  <label class="form-label" for="g-address">Your Area / Address in Nagpur</label>
                   <input type="text" id="g-address" name="address" class="form-control"
                     placeholder="e.g., Plot 24, Dharampeth, Nagpur, Maharashtra">
                 </div>
@@ -391,7 +374,7 @@
                 <div class="form-group">
                   <label class="form-label" for="g-message">Additional Notes / Preferred Date & Time</label>
                   <textarea id="g-message" name="message" class="form-control" rows="2"
-                    placeholder="Convenient time for phone call or pickup coordination..."></textarea>
+                    placeholder="Convenient time for phone call or drop-off coordination..."></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary"
